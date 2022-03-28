@@ -1,0 +1,9 @@
+name: fastapi
+dependencies:
+  - pandas
+  - numpy
+  - uvicorn[standard]
+  - pip
+  - scipy
+  - pip:
+    - fastapi
