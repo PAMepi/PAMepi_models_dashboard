@@ -1,6 +1,0 @@
-pandas
-scipy
-fastapi
-numpy
-uvicorn
-gunicorn
