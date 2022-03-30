@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
   atribuirValores() {
     this.removeData(this.chart);
     let url =
-      `api/sir?N=${this.dadosDigitados.totalPopulacao}` +
+      `https://polar-cliffs-29261.herokuapp.com/api/sir?N=${this.dadosDigitados.totalPopulacao}` +
       `&beta=${this.dadosDigitados.taxaContato}` +
       `&gamma=${this.dadosDigitados.taxaRecuperacao}` +
       `&I0=${this.dadosDigitados.inicialInfectados}`;
