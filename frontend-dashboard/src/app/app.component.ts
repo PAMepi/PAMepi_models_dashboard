@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   @ViewChild('chart1', { static: true })
   elemento!: ElementRef;
 
+  @ViewChild('chart2', { static: true })
+  element2!: ElementRef;
+
   dadosDigitados: Dados = {
     inicialInfectados: 1,
     taxaRecuperacao: 0.2,
@@ -21,6 +24,7 @@ export class AppComponent implements OnInit {
   };
 
   chart: any;
+  chartSecondary: any;
 
   constructor(private http: HttpClient) {
     Chart.register(...registerables);
@@ -29,6 +33,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.gerarGrafico();
     this.atribuirValores();
+    this.makeChartSecondary()
   }
 
   gerarGrafico() {
@@ -40,24 +45,63 @@ export class AppComponent implements OnInit {
             label: 'Suscetíveis',
             data: [],
             fill: false,
-            borderColor: 'rgb(41, 66, 166)',
-            backgroundColor: 'rgb(41, 66, 166)',
+            borderColor: '#022C64',
+            backgroundColor: '#022C64',
             tension: 0.1,
           },
           {
             label: 'Infectados',
             data: [],
             fill: false,
-            borderColor: 'rgb(235, 122, 52)',
-            backgroundColor: 'rgb(235, 122, 52)',
+            borderColor: '#A80F0A',
+            backgroundColor: '#A80F0A',
             tension: 0.1,
           },
           {
             label: 'Recuperados',
             data: [],
             fill: false,
-            borderColor: 'rgb(52, 235, 52)',
-            backgroundColor: 'rgb(52, 235, 52)',
+            borderColor: '#146F2F',
+            backgroundColor: '#146F2F',
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        layout:{
+          padding:20
+        },
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day',
+            },
+          },
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+
+  makeChartSecondary() {
+    this.chartSecondary = new Chart(this.element2.nativeElement, {
+      type: 'line',
+      data: {
+        datasets: [
+          {
+            label: 'rt',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(41, 66, 166)',
+            backgroundColor: 'rgb(41, 66, 166)',
             tension: 0.1,
           },
         ],
@@ -93,6 +137,10 @@ export class AppComponent implements OnInit {
 
     this.http.get(url).subscribe((res) => this.addData(this.chart, res));
   }
+
+  // sendLabel(){
+
+  // }
 
   addData(chart: any, data: any) {
     let arr3 = chart.data.datasets.map((item: any, i: any) =>
