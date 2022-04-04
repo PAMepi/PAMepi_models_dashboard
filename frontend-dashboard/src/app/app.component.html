@@ -14,7 +14,16 @@
   <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
     <section class="projection-container">
       <h2 class="text-center mt-3">Projeções</h2>
-      <div class="inputs-container mt-5 ">
+      <div class="mt-5">
+        <select class="form-select">
+          SIR, SIHR, SIM
+          <option selected>Selecione o Modelo</option>
+          <option value="1">SIR</option>
+          <option value="2">SIHR</option>
+          <option value="3">SIM</option>
+        </select>
+      </div>
+      <div class="inputs-container mt-4">
         <div class="mb-3">
           <label for="totalPopulacao" class="form-label">População Total</label>
           <input type="text" class="form-control" id="totalPopulacao" [(ngModel)]="dadosDigitados.totalPopulacao">
@@ -60,15 +69,7 @@
         <div class="chart-container">
           <section class="chart-main">
             <h2>Modelo SIR</h2>
-            <div class="models">
-              <select class="form-select">
-                SIR, SIHR, SIM
-                <option selected>Selecione o Modelo</option>
-                <option value="1">SIR</option>
-                <option value="2">SIHR</option>
-                <option value="3">SIM</option>
-              </select>
-            </div>
+
             <canvas #chart> </canvas>
           </section>
         </div>
