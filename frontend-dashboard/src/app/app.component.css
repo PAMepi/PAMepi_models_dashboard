@@ -14,8 +14,8 @@ mat-toolbar {
 }
 
 mat-sidenav {
-  margin: 20px;
-  width: 270px;
+  margin: 25px;
+  width: 280px;
   border-right: none;
   background: #892E2C;
   color: #ffffff;
@@ -95,13 +95,15 @@ mat-sidenav-container {
 
 /* charts */
 .chart-container{
+  margin: 0 auto;
+  width: 95%;
   background-color: #EEEEEE;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .chart-main{
   margin: 0 auto;
-  width: 78%;
+  width: 85%;
   padding: 25px;
 }
 .models{
@@ -114,10 +116,12 @@ select{
 
 }
 .charts-secondary{
+  margin: 0 auto;
+  width: 95%;
   display: flex;
   justify-content: space-around;
   gap: 25px;
-  margin-top: 30px;
+  margin-top: 38px;
 }
 .chart-rt, .chart-tc{
   width:49% ;
