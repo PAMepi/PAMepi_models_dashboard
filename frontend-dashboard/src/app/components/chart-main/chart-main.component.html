@@ -1,0 +1,62 @@
+<main>
+  <div class="chart-container">
+    <section class="chart-main">
+      <h2>Modelo SIR</h2>
+      <div class="models">
+        <select class="form-select">
+          SIR, SIHR, SIM
+          <option selected>Selecione o Modelo</option>
+          <option value="1">SIR</option>
+          <option value="2">SIHR</option>
+          <option value="3">SIM</option>
+        </select>
+      </div>
+      <canvas #chart1> </canvas>
+    </section>
+    <aside>
+      <section class="projection-container">
+        <h2>Projeções</h2>
+        <div class="inputs-container row mt-4">
+          <div class="mb-2 col-6">
+            <label for="totalPopulacao" class="form-label">População Total</label>
+            <input type="text" class="form-control" id="totalPopulacao" [(ngModel)]="dadosDigitados.totalPopulacao">
+          </div>
+          <div class="mb-2 col-6">
+            <label for="inicialInfectados" class="form-label"> Inicial de Infectados</label>
+            <input type="text" class="form-control" id="inicialInfectados" [(ngModel)]="dadosDigitados.inicialInfectados">
+          </div>
+        </div>
+        <div class="container-slider mb-4">
+          <div class="input-slider">
+            <label for="">Taxa de Recuperação</label>
+            <input
+              type="range"
+              min="0"
+              max="1.00"
+              step="any"
+              [(ngModel)]="dadosDigitados.taxaRecuperacao" class="campo"
+            />
+            <span class="form-text m-0">{{ dadosDigitados.taxaRecuperacao.toFixed(2) }}</span>
+          </div>
+          <div class="input-slider">
+            <label>Taxa de Transmissão</label>
+            <input
+              type="range"
+              min="0"
+              max="1.00"
+              step="any"
+              [(ngModel)]="dadosDigitados.taxaContato" class="campo"
+            />
+            <span class="form-text m-0">{{ dadosDigitados.taxaContato.toFixed(2) }}</span>
+          </div>
+        </div>
+        <div class="box-btn row"><button (click)="atribuirValores()" class="btn-chart col-3 mx-auto">calcular</button></div>
+        <!-- <button (click)="sendLabel()">enviar label</button> -->
+      </section>
+      <section class="chart-secondary">
+        <h2>RT</h2>
+        <canvas #chart2> </canvas>
+      </section>
+    </aside>
+  </div>
+</main>
