@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartType } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 
 @Component({
   selector: 'app-chart-rt',
   templateUrl: './chart-rt.component.html',
-  styleUrls: ['./chart-rt.component.css']
+  styleUrls: ['./chart-rt.component.css'],
 })
 export class ChartRtComponent implements OnInit {
   @ViewChild('chart', { static: true })
@@ -13,12 +13,12 @@ export class ChartRtComponent implements OnInit {
   chart: any;
   constructor() {
     Chart.register(...registerables);
-   }
+  }
 
   ngOnInit() {
-    this.gerarGrafico();
+    this.makeChart();
   }
-  gerarGrafico() {
+  makeChart() {
     this.chart = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
@@ -53,5 +53,4 @@ export class ChartRtComponent implements OnInit {
       },
     });
   }
-
 }
