@@ -1,0 +1,105 @@
+main{
+  height: 100%;
+  display: flex;
+  align-items: center;
+  }
+  .chart-container{
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+  }
+
+  .chart-container h2{
+    text-align: center;
+    color: #892E2C;
+  }
+  .models{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+  select{
+    width: 18%;
+
+  }
+  .chart-container .chart-main{
+    width: 75%;
+    padding: 30px;
+    background-color: #EEEEEE;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+
+
+  aside{
+    width: 25%;
+    height: 80vh;
+
+  }
+  .chart-container .chart-secondary, .projection-container{
+    height: 49%;
+    width: 100%;
+    background-color: #EEEEEE;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+
+  .chart-container .chart-secondary{
+  margin-top: 30px;
+  }
+
+  .container-slider{
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
+  }
+
+  .input-slider{
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 45%;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 50%;
+    height: 2px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #892E2C;
+    border: 0px solid #000101;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    background: #892E2C;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -7px;
+  }
+
+  .btn-chart{
+    border: none;
+    background-color: #892E2C;
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
+    font-size: 18px;
+
+  }
+
+  input:focus, select:focus{
+    box-shadow: none;
+  }
+

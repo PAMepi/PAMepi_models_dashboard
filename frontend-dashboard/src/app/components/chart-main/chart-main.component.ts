@@ -1,23 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Chart, registerables, ChartType } from 'chart.js';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { MatSidenav } from '@angular/material/sidenav';
-import { delay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import 'chartjs-adapter-date-fns';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-chart-main',
+  templateUrl: './chart-main.component.html',
+  styleUrls: ['./chart-main.component.css']
 })
-export class AppComponent implements OnInit {
-  @ViewChild(MatSidenav)
-  sidenav!: MatSidenav;
-
-  // chartjs
+export class ChartMainComponent implements OnInit {
 
   @ViewChild('chart', { static: true })
   elemento!: ElementRef;
+
+  @ViewChild('chart2', { static: true })
+  element2!: ElementRef;
 
   dadosDigitados: Dados = {
     inicialInfectados: 1,
@@ -27,32 +24,18 @@ export class AppComponent implements OnInit {
   };
 
   chart: any;
+  chartSecondary: any;
 
-
-  constructor(private observer: BreakpointObserver, private http: HttpClient) {
+  constructor(private http: HttpClient) {
     Chart.register(...registerables);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.gerarGrafico();
     this.atribuirValores();
-
+    this.makeChartSecondary()
   }
 
-  ngAfterViewInit() {
-    this.observer
-      .observe(['(max-width: 1024px)'])
-      .pipe(delay(1))
-      .subscribe((res) => {
-        if (res.matches) {
-          this.sidenav.mode = 'over';
-          this.sidenav.close();
-        } else {
-          this.sidenav.mode = 'side';
-          this.sidenav.open();
-        }
-      });
-  }
 
   gerarGrafico() {
     this.chart = new Chart(this.elemento.nativeElement, {
@@ -86,8 +69,8 @@ export class AppComponent implements OnInit {
         ],
       },
       options: {
-        layout: {
-          padding: 20,
+        layout:{
+          padding:20
         },
         elements: {
           point: {
@@ -109,7 +92,41 @@ export class AppComponent implements OnInit {
     });
   }
 
-
+  makeChartSecondary() {
+    this.chartSecondary = new Chart(this.element2.nativeElement, {
+      type: 'line',
+      data: {
+        datasets: [
+          {
+            label: 'rt',
+            data: [],
+            fill: false,
+            borderColor: 'rgb(41, 66, 166)',
+            backgroundColor: 'rgb(41, 66, 166)',
+            tension: 0.1,
+          },
+        ],
+      },
+      options: {
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day',
+            },
+          },
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
 
   atribuirValores() {
     this.removeData(this.chart);
@@ -140,7 +157,9 @@ export class AppComponent implements OnInit {
     });
     chart.update();
   }
+
 }
+
 
 interface Dados {
   totalPopulacao: number;
