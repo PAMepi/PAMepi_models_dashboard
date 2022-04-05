@@ -20,10 +20,10 @@ export class AppComponent implements OnInit {
   elemento!: ElementRef;
 
   data: SIR = {
-    total_population: 1,
-    initial_infected: 0.2,
-    transmission_rate: 5000,
-    recovery_rate: 0.5,
+    total_population: 5000,
+    initial_infected: 1,
+    transmission_rate: 0.5,
+    recovery_rate: 0.2,
   };
 
   chart: any;
