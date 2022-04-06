@@ -4,9 +4,14 @@
 This directory was created in order to predict the evolution of an epidemic through the SIR, SIHR and SIM epidemiological models.
 
 
-## Current frontend
+## Current Frontend
 
-Insira um gif ou um link de alguma demonstração
+![S_442022_174907](https://user-images.githubusercontent.com/73593492/161871097-eca9f82d-7a5a-4b8f-9542-eda9a7341598.png)
+
+
+![S_442022_175013](https://user-images.githubusercontent.com/73593492/161871139-73f733dc-423e-40ce-a708-cca2bef50022.png)
+
+
 
 
 ## Running Locally
