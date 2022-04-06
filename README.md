@@ -1,7 +1,7 @@
 
 # PAMepi Dashboard
 
-This directory was created in order to predict the evolution of an epidemic through the SIR, SIHR and SIM epidemiological models.
+This directory contains code of a dashboard used to explore and compare epidemiological models aiming to predict the evolution of an epidemic.
 
 
 ## Current Frontend
