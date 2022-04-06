@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    script: 
+    - cd frontend-dashboard
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -16,10 +18,9 @@ jobs:
       uses: actions/setup-node@v2
       with:
           node-version: "10.x"
-    - run: cd frontend-dashboard
-    - run: ls
+    - run: ls  
     - run: npm install
-    - run: npm run build
+    - run: npm run build 
     - name: Deploy
       uses: crazy-max/ghaction-github-pages@v1
       with:
