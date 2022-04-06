@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
-    "build": "ng build ",
+    "build": "ng build --prod --base-href  https://pamepi.github.io/PAMepi_models_dashboard/ ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "predeploy":"npm run build",
