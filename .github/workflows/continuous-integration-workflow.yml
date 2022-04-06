@@ -15,7 +15,7 @@ jobs:
       - name: Set-up Node
         uses: actions/setup-node@v2
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - run: npm install --prefix ./frontend-dashboard
       - run: npm run  --prefix ./frontend-dashboard build
       - name: Deploy
