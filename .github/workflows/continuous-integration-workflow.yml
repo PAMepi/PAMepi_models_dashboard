@@ -17,6 +17,7 @@ jobs:
       with:
           node-version: "10.x"
     - run: cd frontend-dashboard
+    - run: ls
     - run: npm install
     - run: npm run build
     - name: Deploy
