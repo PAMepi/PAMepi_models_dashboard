@@ -11,72 +11,76 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+  <mat-sidenav #sidenav="matSidenav">
     <section class="projection-container">
       <h2 class="text-center mt-3">Projeções</h2>
-      <div class="mt-5">
-        <select class="form-select">
-          SIR, SIHR, SIM
-          <option selected>Selecione o Modelo</option>
-          <option value="1">SIR</option>
-          <option value="2">SIHR</option>
-          <option value="3">SIM</option>
-        </select>
-      </div>
-      <div class="inputs-container mt-4">
-        <div class="mb-3">
-          <label for="total_population" class="form-label"
-            >População Total</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="total_population"
-            [(ngModel)]="data.total_population"
-          />
+      <div class="sidebar-form">
+        <div class="mt-4">
+          <select class="form-select">
+            SIR, SIHR, SIM
+            <option selected>Selecione o Modelo</option>
+            <option value="1">SIR</option>
+            <option value="2">SIHR</option>
+            <option value="3">SIM</option>
+          </select>
         </div>
-        <div class="mb-3">
-          <label for="initial_infected" class="form-label">
-            Inicial de Infectados</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            id="initial_infected"
-            [(ngModel)]="data.initial_infected"
-          />
+        <div class="inputs-container mt-2 mt-height">
+          <div class="mb-2 mt-height">
+            <label for="total_population" class="form-label"
+              >População Total</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="total_population"
+              [(ngModel)]="data.total_population"
+            />
+          </div>
+          <div class="mb-2 mt-height">
+            <label for="initial_infected" class="form-label">
+              Inicial de Infectados</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="initial_infected"
+              [(ngModel)]="data.initial_infected"
+            />
+          </div>
         </div>
-      </div>
-      <div class="container-slider mt-4">
-        <div class="input-slider">
-          <label for="">Taxa de Recuperação</label>
-          <input
-            type="range"
-            min="0"
-            max="1.00"
-            step="any"
-            [(ngModel)]="data.recovery_rate"
-            class="campo"
-          />
-          <span class="form-text m-0">{{ data.recovery_rate.toFixed(2) }}</span>
+        <div class="container-slider mt-3">
+          <div class="input-slider">
+            <label for="">Taxa de Recuperação</label>
+            <input
+              type="range"
+              min="0"
+              max="1.00"
+              step="any"
+              [(ngModel)]="data.recovery_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.recovery_rate.toFixed(2)
+            }}</span>
+          </div>
+          <div class="input-slider">
+            <label>Taxa de Transmissão</label>
+            <input
+              type="range"
+              min="0"
+              max="1.00"
+              step="any"
+              [(ngModel)]="data.transmission_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.transmission_rate.toFixed(2)
+            }}</span>
+          </div>
         </div>
-        <div class="input-slider">
-          <label>Taxa de Transmissão</label>
-          <input
-            type="range"
-            min="0"
-            max="1.00"
-            step="any"
-            [(ngModel)]="data.transmission_rate"
-            class="campo"
-          />
-          <span class="form-text m-0">{{
-            data.transmission_rate.toFixed(2)
-          }}</span>
+        <div class="box-btn text-center mt-4">
+          <button (click)="updateChartSIR()" class="btn-chart">Calcular</button>
         </div>
-      </div>
-      <div class="box-btn text-center mt-4">
-        <button (click)="updateChartSIR()" class="btn-chart">Calcular</button>
       </div>
     </section>
   </mat-sidenav>
