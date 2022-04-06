@@ -25,3 +25,6 @@ jobs:
           build_dir: ./frontend-dashboard/dist/dashboard
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          echo "Hello World"
+          echo "This is a secret value: $REPO_TOKEN " 
