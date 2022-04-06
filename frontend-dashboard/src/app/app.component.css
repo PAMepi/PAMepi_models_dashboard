@@ -180,6 +180,10 @@ select:focus {
     padding: 6px;
     font-size: 14px;
   }
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
 }
 @media (max-height: 560px) {
   .projection-container h2 {
