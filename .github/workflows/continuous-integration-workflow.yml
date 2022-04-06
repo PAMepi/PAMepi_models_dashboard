@@ -20,7 +20,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
       - run: |
           echo "Hello World"
-          echo "This is a secret value: $REPO_TOKEN " 
+          echo "This is a secret value: $GITHUB_TOKEN" 
 
       - run: npm install --prefix ./frontend-dashboard
       - run: npm run  --prefix ./frontend-dashboard build
