@@ -1,9 +1,10 @@
+import { ChartService } from './services/chart.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartType } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { SIR } from './models/SIR';
 
 @Component({
   selector: 'app-root',
@@ -15,28 +16,28 @@ export class AppComponent implements OnInit {
   sidenav!: MatSidenav;
 
   // chartjs
-
   @ViewChild('chart', { static: true })
   elemento!: ElementRef;
 
-  dadosDigitados: Dados = {
-    inicialInfectados: 1,
-    taxaRecuperacao: 0.2,
-    totalPopulacao: 5000,
-    taxaContato: 0.5,
+  data: SIR = {
+    total_population: 5000,
+    initial_infected: 1,
+    transmission_rate: 0.5,
+    recovery_rate: 0.2,
   };
 
   chart: any;
 
-
-  constructor(private observer: BreakpointObserver, private http: HttpClient) {
+  constructor(
+    private observer: BreakpointObserver,
+    private chartService: ChartService
+  ) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
-    this.gerarGrafico();
-    this.atribuirValores();
-
+    this.makeChart();
+    this.updateChartSIR();
   }
 
   ngAfterViewInit() {
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  gerarGrafico() {
+  makeChart() {
     this.chart = new Chart(this.elemento.nativeElement, {
       type: 'line',
       data: {
@@ -109,42 +110,17 @@ export class AppComponent implements OnInit {
     });
   }
 
-
-
-  atribuirValores() {
-    this.removeData(this.chart);
-    let url =
-      `https://polar-cliffs-29261.herokuapp.com/api/sir?N=${this.dadosDigitados.totalPopulacao}` +
-      `&beta=${this.dadosDigitados.taxaContato}` +
-      `&gamma=${this.dadosDigitados.taxaRecuperacao}` +
-      `&I0=${this.dadosDigitados.inicialInfectados}`;
-
-    this.http.get(url).subscribe((res) => this.addData(this.chart, res));
+  updateChartSIR() {
+    this.chartService.removeData(this.chart);
+    this.chartService
+      .updateChartSIR(
+        this.data.total_population,
+        this.data.transmission_rate,
+        this.data.recovery_rate,
+        this.data.initial_infected
+      )
+      .subscribe((res) => {
+        this.chartService.addData(this.chart, res);
+      });
   }
-
-  // sendLabel(){
-
-  // }
-
-  addData(chart: any, data: any) {
-    let arr3 = chart.data.datasets.map((item: any, i: any) =>
-      Object.assign({}, item, data[i])
-    );
-    chart.data.datasets = arr3;
-    chart.update();
-  }
-
-  removeData(chart: any) {
-    chart.data.datasets.forEach((dataset: any) => {
-      dataset.data = [];
-    });
-    chart.update();
-  }
-}
-
-interface Dados {
-  totalPopulacao: number;
-  inicialInfectados: number;
-  taxaContato: number;
-  taxaRecuperacao: number;
 }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Chart, registerables, ChartType } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 
 @Component({
@@ -16,9 +16,9 @@ export class ChartTxComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gerarGrafico();
+    this.makeChart();
   }
-  gerarGrafico() {
+  makeChart() {
     this.chart = new Chart(this.element.nativeElement, {
       type: 'line',
       data: {
