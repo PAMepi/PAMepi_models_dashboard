@@ -16,6 +16,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
           node-version: "10.x"
+    - run: cd frontend-dashboard
     - run: npm install
     - run: npm run build
     - name: Deploy
