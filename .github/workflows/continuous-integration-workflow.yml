@@ -24,4 +24,4 @@ jobs:
           target_branch: gh-pages
           build_dir: ./frontend-dashboard/dist/dashboard
         env:
-          GITHUB_TOKEN: ${{secrets.REPO_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
