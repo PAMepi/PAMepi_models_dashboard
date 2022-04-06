@@ -181,3 +181,42 @@ select:focus {
     font-size: 14px;
   }
 }
+@media (max-height: 560px) {
+  .projection-container h2 {
+    font-size: 20px;
+  }
+  .sidebar-form .form-label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-select {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .form-control {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .input-slider label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-text {
+    font-size: 8px;
+  }
+  .sidebar-form .btn-chart {
+    padding: 6px;
+    font-size: 11px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    height: 12px;
+    width: 12px;
+    margin-top: -5px;
+  }
+.content h2{
+  font-size: 20px;
+  margin-top: 10px;
+}
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
+}
