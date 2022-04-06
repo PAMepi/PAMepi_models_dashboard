@@ -19,7 +19,7 @@ jobs:
       - run: npm install --prefix ./frontend-dashboard
       - run: npm run  --prefix ./frontend-dashboard build
       - name: Deploy
-        uses: crazy-max/ghaction-github-pages@v1
+        uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh-pages
           build_dir: ./frontend-dashboard/dist/dashboard
