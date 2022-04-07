@@ -10,12 +10,12 @@ mat-toolbar {
 .content h2 {
   text-align: center;
   color: #892e2c;
-  font-size: 38px;
+  font-size: 30px;
 }
 
 mat-sidenav {
   margin: 25px;
-  width: 280px;
+  width: 245px;
   border-right: none;
   background: #892e2c;
   color: #ffffff;
@@ -23,7 +23,19 @@ mat-sidenav {
   padding: 16px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
+.sidebar-form {
+  margin: 0 auto;
+  width: 88%;
+}
+.sidebar-form .form-select {
+  height: 36px;
+}
+.sidebar-form .form-control {
+  height: 80%;
+}
+.projection-container h2 {
+  font-size: 28px;
+}
 input[type="range"] {
   -webkit-appearance: none;
   margin: 10px 0;
@@ -71,7 +83,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .content {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 60px);
   border-radius: 10px;
   margin: 16px;
   margin-left: 32px;
@@ -94,7 +106,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 mat-sidenav-container {
-  height: calc(100vh - 65px);
+  height: calc(100vh - 25px);
 }
 
 /* charts */
@@ -130,4 +142,85 @@ mat-sidenav-container {
 input:focus,
 select:focus {
   box-shadow: none;
+}
+@media (min-height: 700px) {
+  .projection-container h2 {
+    font-size: 35px;
+    padding: 10px;
+  }
+  mat-sidenav {
+    width: 290px;
+  }
+  .mt-height {
+    margin-top: 28px;
+  }
+}
+@media (max-height: 698px) {
+  .projection-container h2 {
+    font-size: 25px;
+  }
+  .sidebar-form .form-label {
+    font-size: 12px;
+  }
+  .sidebar-form .form-select {
+    height: 28px;
+    font-size: 12px;
+  }
+  .sidebar-form .form-control {
+    height: 28px;
+    font-size: 12px;
+  }
+  .sidebar-form .input-slider label {
+    font-size: 12px;
+  }
+  .sidebar-form .form-text {
+    font-size: 10px;
+  }
+  .sidebar-form .btn-chart {
+    padding: 6px;
+    font-size: 14px;
+  }
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
+}
+@media (max-height: 560px) {
+  .projection-container h2 {
+    font-size: 20px;
+  }
+  .sidebar-form .form-label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-select {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .form-control {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .input-slider label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-text {
+    font-size: 8px;
+  }
+  .sidebar-form .btn-chart {
+    padding: 6px;
+    font-size: 11px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    height: 12px;
+    width: 12px;
+    margin-top: -5px;
+  }
+.content h2{
+  font-size: 20px;
+  margin-top: 10px;
+}
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
 }
