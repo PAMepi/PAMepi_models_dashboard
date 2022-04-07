@@ -7,8 +7,8 @@
     "build": "ng build --prod --base-href  https://pamepi.github.io/PAMepi_models_dashboard/ ",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d  dist/dashboard"
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d  dist/dashboard"
   },
   "private": true,
   "dependencies": {

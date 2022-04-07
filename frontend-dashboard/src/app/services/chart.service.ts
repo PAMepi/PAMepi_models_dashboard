@@ -1,7 +1,7 @@
 import { SIR } from '../models/SIR';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-
+import { ElementRef, Injectable } from '@angular/core';
+import { Chart, ChartTypeRegistry, registerables } from 'chart.js';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,10 @@ import { Injectable } from '@angular/core';
 export class ChartService {
   SIR!: SIR;
   baseUrl: string = 'https://polar-cliffs-29261.herokuapp.com/api';
+
+  datasetModel = datasetModel
+  datasetRt = datasetRt
+  datasetTx = datasetTx
 
   constructor(private http: HttpClient) {}
 
@@ -40,4 +44,93 @@ export class ChartService {
     });
     chart.update();
   }
+
+
+  makeChart(element: HTMLCanvasElement, dataset: any = this.datasetModel, type:any = 'line') {
+    let chart = new Chart(element, {
+      type: type,
+      data: {
+        datasets: dataset,
+      },
+      options: {
+        layout: {
+          padding: 20,
+        },
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day',
+            },
+          },
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+    return chart;
+  }
+
 }
+
+
+let datasetModel = [
+  {
+    label: 'Suscetíveis',
+    data: [],
+    fill: false,
+    borderColor: '#022C64',
+    backgroundColor: '#022C64',
+    tension: 0.1,
+  },
+  {
+    label: 'Infectados',
+    data: [],
+    fill: false,
+    borderColor: '#A80F0A',
+    backgroundColor: '#A80F0A',
+    tension: 0.1,
+  },
+  {
+    label: 'Recuperados',
+    data: [],
+    fill: false,
+    borderColor: '#146F2F',
+    backgroundColor: '#146F2F',
+    tension: 0.1,
+  },
+]
+
+let datasetRt = [
+  {
+    label: 'Rt',
+    data: [],
+    fill: false,
+    borderColor: '#022C64',
+    backgroundColor: '#022C64',
+    tension: 0.1,
+  }
+]
+
+let datasetTx = [
+  {
+    label: 'Casos Acumulados',
+    data: [],
+    fill: false,
+    borderColor: 'rgb(41, 66, 166)',
+    backgroundColor: 'rgb(41, 66, 166)',
+    tension: 0.1,
+  },
+  {
+    label: 'Casos Diários',
+    data: [],
+    fill: false,
+    tension: 0.1,
+  },
+]
