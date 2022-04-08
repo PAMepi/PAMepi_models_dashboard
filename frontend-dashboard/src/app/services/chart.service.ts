@@ -2,13 +2,14 @@ import { SIR } from '../models/SIR';
 import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable } from '@angular/core';
 import { Chart, ChartTypeRegistry, registerables } from 'chart.js';
+import 'chartjs-adapter-date-fns';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChartService {
   SIR!: SIR;
-  baseUrl: string = 'https://polar-cliffs-29261.herokuapp.com/api';
+  baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
 
   datasetModel = datasetModel
   datasetRt = datasetRt
