@@ -45,8 +45,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.chart = this.chartService.makeChart(this.elemento.nativeElement);
-    this.chartRt = this.chartService.makeChart(this.elementoRt.nativeElement, this.chartService.datasetRt);
-    this.chartTx = this.chartService.makeChart(this.elementoTx.nativeElement, this.chartService.datasetTx, 'bar');
+    this.chartRt = this.chartService.makeChart(
+      this.elementoRt.nativeElement,
+      this.chartService.datasetRt
+    );
+    this.chartTx = this.chartService.makeChart(
+      this.elementoTx.nativeElement,
+      this.chartService.datasetTx,
+      'bar'
+    );
 
     this.updateChartSIR();
   }
@@ -68,8 +75,8 @@ export class AppComponent implements OnInit {
 
   updateChartSIR() {
     this.chartService.removeData(this.chart);
-    this.chartService.removeData(this.chartRt)
-    this.chartService.removeData(this.chartTx)
+    this.chartService.removeData(this.chartRt);
+    this.chartService.removeData(this.chartTx);
     this.chartService
       .updateChartSIR(
         this.data.total_population,
@@ -77,16 +84,11 @@ export class AppComponent implements OnInit {
         this.data.recovery_rate,
         this.data.initial_infected
       )
-      .subscribe((res:any) => {
-        console.log(res)
+      .subscribe((res: any) => {
+        console.log(res);
         this.chartService.addData(this.chart, res.data);
         this.chartService.addData(this.chartRt, res.rt);
         this.chartService.addData(this.chartTx, res.casos);
       });
   }
-
-  onHiddenContent(){
-    console.log("carregouuu")
-  }
-
 }

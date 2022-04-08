@@ -55,3 +55,9 @@
     transform: rotate(360deg);
   }
 }
+@media (max-width: 1440px)
+{
+  .container-loader {
+    width: 92%;
+  }
+}
