@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoaderService } from 'src/app/services/loader.service';
 
 @Component({
@@ -7,17 +7,12 @@ import { LoaderService } from 'src/app/services/loader.service';
   styleUrls: ['./loader.component.css'],
 })
 export class LoaderComponent implements OnInit {
-  @Output() controllerEvent: EventEmitter<any> = new EventEmitter();
-
-  @Output() loading!: boolean;
+  loading!: boolean;
 
   constructor(private loaderService: LoaderService) {
     this.loaderService.isLoading.subscribe((res) => {
       console.log(res);
       this.loading = res;
-      if (res == true) {
-        this.controllerEvent.emit();
-      }
     });
   }
 
