@@ -53,7 +53,7 @@
             <label for="">Taxa de Recuperação</label>
             <input
               type="range"
-              min="0"
+              min="0.1"
               max="1.00"
               step="any"
               [(ngModel)]="data.recovery_rate"
@@ -67,8 +67,8 @@
             <label>Taxa de Transmissão</label>
             <input
               type="range"
-              min="0"
-              max="1.00"
+              min="0.1"
+              max="2.00"
               step="any"
               [(ngModel)]="data.transmission_rate"
               class="campo"
@@ -95,12 +95,17 @@
       </div>
       <section class="charts-secondary">
         <div class="chart-rt">
-          <h2>RT</h2>
-          <app-chart-rt></app-chart-rt>
+          <h2>Taxa de transmissão (Rt)</h2>
+          <div>
+            <canvas #chartRt> </canvas>
+          </div>
         </div>
         <div class="chart-tc">
-          <h2>TC</h2>
-          <app-chart-tx></app-chart-tx>
+          <h2>Casos diários/acumulados</h2>
+          <div>
+            <canvas #chartTx> </canvas>
+          </div>
+          
         </div>
       </section>
     </main>

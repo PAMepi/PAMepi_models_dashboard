@@ -19,6 +19,12 @@ export class AppComponent implements OnInit {
   @ViewChild('chart', { static: true })
   elemento!: ElementRef;
 
+  @ViewChild('chartRt', { static: true })
+  elementoRt!: ElementRef;
+
+  @ViewChild('chartTx', { static: true })
+  elementoTx!: ElementRef;
+
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
@@ -27,6 +33,8 @@ export class AppComponent implements OnInit {
   };
 
   chart: any;
+  chartRt: any;
+  chartTx: any;
 
   constructor(
     private observer: BreakpointObserver,
@@ -36,7 +44,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.makeChart();
+    this.chart = this.chartService.makeChart(this.elemento.nativeElement);
+    this.chartRt = this.chartService.makeChart(this.elementoRt.nativeElement, this.chartService.datasetRt);
+    this.chartTx = this.chartService.makeChart(this.elementoTx.nativeElement, this.chartService.datasetTx, 'bar');
+
     this.updateChartSIR();
   }
 
@@ -55,63 +66,10 @@ export class AppComponent implements OnInit {
       });
   }
 
-  makeChart() {
-    this.chart = new Chart(this.elemento.nativeElement, {
-      type: 'line',
-      data: {
-        datasets: [
-          {
-            label: 'Suscetíveis',
-            data: [],
-            fill: false,
-            borderColor: '#022C64',
-            backgroundColor: '#022C64',
-            tension: 0.1,
-          },
-          {
-            label: 'Infectados',
-            data: [],
-            fill: false,
-            borderColor: '#A80F0A',
-            backgroundColor: '#A80F0A',
-            tension: 0.1,
-          },
-          {
-            label: 'Recuperados',
-            data: [],
-            fill: false,
-            borderColor: '#146F2F',
-            backgroundColor: '#146F2F',
-            tension: 0.1,
-          },
-        ],
-      },
-      options: {
-        layout: {
-          padding: 20,
-        },
-        elements: {
-          point: {
-            radius: 0,
-          },
-        },
-        scales: {
-          x: {
-            type: 'time',
-            time: {
-              unit: 'day',
-            },
-          },
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  }
-
   updateChartSIR() {
     this.chartService.removeData(this.chart);
+    this.chartService.removeData(this.chartRt)
+    this.chartService.removeData(this.chartTx)
     this.chartService
       .updateChartSIR(
         this.data.total_population,
@@ -119,8 +77,11 @@ export class AppComponent implements OnInit {
         this.data.recovery_rate,
         this.data.initial_infected
       )
-      .subscribe((res) => {
-        this.chartService.addData(this.chart, res);
+      .subscribe((res:any) => {
+        console.log(res)
+        this.chartService.addData(this.chart, res.data);
+        this.chartService.addData(this.chartRt, res.rt);
+        this.chartService.addData(this.chartTx, res.casos);
       });
   }
 }
