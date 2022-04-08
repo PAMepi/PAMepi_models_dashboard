@@ -84,4 +84,9 @@ export class AppComponent implements OnInit {
         this.chartService.addData(this.chartTx, res.casos);
       });
   }
+
+  onHiddenContent(){
+    console.log("carregouuu")
+  }
+
 }
