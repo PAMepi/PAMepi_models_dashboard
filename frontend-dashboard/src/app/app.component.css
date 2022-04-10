@@ -143,6 +143,7 @@ input:focus,
 select:focus {
   box-shadow: none;
 }
+
 @media (min-height: 700px) {
   .projection-container h2 {
     font-size: 35px;
@@ -215,10 +216,10 @@ select:focus {
     width: 12px;
     margin-top: -5px;
   }
-.content h2{
-  font-size: 20px;
-  margin-top: 10px;
-}
+  .content h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
   .chart-main {
     width: 100%;
     padding: 10px;

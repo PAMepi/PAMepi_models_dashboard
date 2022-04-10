@@ -1,3 +1,4 @@
+
 <mat-toolbar class="mat-elevation-z8">
   <button
     mat-icon-button
@@ -84,8 +85,13 @@
       </div>
     </section>
   </mat-sidenav>
+
   <mat-sidenav-content>
-    <main class="content">
+
+    <main class="content" #main>
+      <div class="container-loader">
+        <app-loader></app-loader>
+      </div>
       <div class="chart-container">
         <section class="chart-main">
           <h2>Modelo SIR</h2>
@@ -105,9 +111,11 @@
           <div>
             <canvas #chartTx> </canvas>
           </div>
-          
+
         </div>
       </section>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+
