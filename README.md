@@ -6,10 +6,10 @@ This directory contains code of a dashboard used to explore and compare epidemio
 
 ## Current Frontend
 
-![S_442022_174907](https://user-images.githubusercontent.com/73593492/161871097-eca9f82d-7a5a-4b8f-9542-eda9a7341598.png)
+![image](https://user-images.githubusercontent.com/73593492/162827456-5d4e146f-3bd3-4a05-88bb-1bebca66ede1.png)
 
 
-![S_442022_175013](https://user-images.githubusercontent.com/73593492/161871139-73f733dc-423e-40ce-a708-cca2bef50022.png)
+![image](https://user-images.githubusercontent.com/73593492/162827566-030d1886-5ac2-4d70-a1d3-5358cd464dce.png)
 
 
 
@@ -76,5 +76,5 @@ Start the server
 
 #### Site: https://pamepi.github.io/PAMepi_models_dashboard/
 
-#### Api: https://polar-cliffs-29261.herokuapp.com/api
+#### Api: https://app-dashboard-covid.herokuapp.com/
 
