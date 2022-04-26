@@ -9,7 +9,7 @@ import 'chartjs-adapter-date-fns';
 })
 export class ChartService {
   SIR!: SIR;
-  baseUrl: string = '/api';
+  baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
 
   datasetModel = datasetModel
   datasetRt = datasetRt
