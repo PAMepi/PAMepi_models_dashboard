@@ -23,6 +23,9 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     ret = odeint(deriv, y0, t, args=(N, beta, gamma))
 
     S, I, R = ret.T 
+    S = np.array(S.astype(int))
+    I = np.array(I.astype(int))
+    R = np.array(R.astype(int))
 
     if R0 == 0:
         R0 = beta/gamma
@@ -31,7 +34,7 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     C = N - S
     Cd = np.diff(C)
 
-    final = np.where(np.diff(R) < 00000.1)[0][0]
+    final = np.where(np.diff(R)[50:] < 1)[0][0]
 
     data = [
             {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
