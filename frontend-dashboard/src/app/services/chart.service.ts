@@ -11,9 +11,9 @@ export class ChartService {
   SIR!: SIR;
   baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
 
-  datasetModel = datasetModel
-  datasetRt = datasetRt
-  datasetTx = datasetTx
+  datasetModel = datasetModel;
+  datasetRt = datasetRt;
+  datasetTx = datasetTx;
 
   constructor(private http: HttpClient) {}
 
@@ -46,8 +46,11 @@ export class ChartService {
     chart.update();
   }
 
-
-  makeChart(element: HTMLCanvasElement, dataset: any = this.datasetModel, type:any = 'line') {
+  makeChart(
+    element: HTMLCanvasElement,
+    dataset: any = this.datasetModel,
+    type: any = 'line'
+  ) {
     let chart = new Chart(element, {
       type: type,
       data: {
@@ -77,9 +80,7 @@ export class ChartService {
     });
     return chart;
   }
-
 }
-
 
 let datasetModel = [
   {
@@ -106,7 +107,7 @@ let datasetModel = [
     backgroundColor: '#146F2F',
     tension: 0.1,
   },
-]
+];
 
 let datasetRt = [
   {
@@ -116,8 +117,8 @@ let datasetRt = [
     borderColor: '#022C64',
     backgroundColor: '#022C64',
     tension: 0.1,
-  }
-]
+  },
+];
 
 let datasetTx = [
   {
@@ -134,4 +135,4 @@ let datasetTx = [
     fill: false,
     tension: 0.1,
   },
-]
+];
