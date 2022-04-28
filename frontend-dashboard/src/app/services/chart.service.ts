@@ -1,8 +1,13 @@
+
+import * as moment from 'moment';
+import "moment/locale/nl";
 import { SIR } from '../models/SIR';
 import { HttpClient } from '@angular/common/http';
 import { ElementRef, Injectable } from '@angular/core';
 import { Chart, ChartTypeRegistry, registerables } from 'chart.js';
-import 'chartjs-adapter-date-fns';
+import "chartjs-adapter-moment";
+
+moment.locale("pt-br");
 
 @Injectable({
   providedIn: 'root',
@@ -74,7 +79,12 @@ export class ChartService {
           },
           y: {
             beginAtZero: true,
+            stepSize: 2
           },
+        },
+        interaction: {
+          intersect: false,
+          mode: 'index',
         },
       },
     });
