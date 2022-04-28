@@ -22,7 +22,54 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     # Integrate the SIR equations over the time grid, t.
     ret = odeint(deriv, y0, t, args=(N, beta, gamma))
 
-    S, I, R = ret.T     
+    S, I, R = ret.T 
+    S = np.array(S.astype(int))
+    I = np.array(I.astype(int))
+    R = np.array(R.astype(int))
+
+    if R0 == 0:
+        R0 = beta/gamma
+
+    Rt = (R0*S)/N
+    C = N - S
+    Cd = np.diff(C)
+
+    final = np.where(np.diff(R)[50:] < 1)[0][0]
+
+    data = [
+            {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
+            {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
+            {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
+        ]
+
+    return {
+        'data': data, 
+        'rt': [{'label': 'Rt', 'data': add_date(Rt[:final].tolist())}],
+        'casos': [
+            {'label': 'Casos Acumulados', 'data': add_date(C[:final].tolist())},
+            {'label': 'Casos Diários', 'data': add_date(Cd[:final].tolist())}
+        ]}
+
+
+def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/10, t_max = 365):
+    # initial number of infected and recovered individuals
+    S0 = N - I0 - R0
+
+    t = np.linspace(0, t_max, t_max)
+    
+    # SEIR model differential equations.
+    def deriv(x, t, alpha, beta, gamma):
+        s, e, i, r = x
+        dsdt = -beta * s * i
+        dedt =  beta * s * i - alpha * e
+        didt = alpha * e - gamma * i
+        drdt =  gamma * i
+        return [dsdt, dedt, didt, drdt]
+
+
+    x_initial = S0, E0, I0, R0
+    soln = odeint(deriv, x_initial, t, args=(alpha, beta, gamma))
+    S, E, I, R = soln.T
 
     if R0 == 0:
         R0 = beta/gamma
@@ -36,6 +83,7 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     data = [
             {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
             {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
+            {'label': 'Expostos', 'data': add_date(E[:final].tolist())},
             {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
         ]
 
