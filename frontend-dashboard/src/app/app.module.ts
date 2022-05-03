@@ -13,9 +13,12 @@ import { LoaderComponent } from './components/loader/loader.component';
 //LOADER SERVICES
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
+import { ChartModelsComponent } from './components/chart-models/chart-models.component';
+import { ChartMapsComponent } from './components/chart-maps/chart-maps.component';
+import {ChartModule} from 'angular-highcharts'
 
 @NgModule({
-  declarations: [AppComponent, LoaderComponent],
+  declarations: [AppComponent, LoaderComponent, ChartModelsComponent, ChartMapsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,6 +28,7 @@ import { LoaderInterceptorService } from './interceptors/loader-interceptor.serv
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
+    ChartModule
   ],
   providers: [
     LoaderService,
