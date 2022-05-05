@@ -1,10 +1,12 @@
+import { chartModelOptions } from './../../helpers/chart-model';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChartService } from '../../services/chart.service';
-import { Chart, registerables } from 'chart.js';
+import {  registerables } from 'chart.js';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
 import { SIR } from '../../models/SIR';
+import { Chart } from 'angular-highcharts';
 
 @Component({
   selector: 'app-chart-models',
@@ -12,6 +14,8 @@ import { SIR } from '../../models/SIR';
   styleUrls: ['./chart-models.component.css'],
 })
 export class ChartModelsComponent implements OnInit {
+  chartTest:Chart = new Chart(chartModelOptions)
+
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
@@ -40,7 +44,7 @@ export class ChartModelsComponent implements OnInit {
     private observer: BreakpointObserver,
     private chartService: ChartService
   ) {
-    Chart.register(...registerables);
+    // Chart.register(...registerables);
   }
 
   ngOnInit(): void {
