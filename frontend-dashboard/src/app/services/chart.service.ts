@@ -14,7 +14,7 @@ moment.locale("pt-br");
 })
 export class ChartService {
   SIR!: SIR;
-  baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
+  baseUrl: string = '/api';
 
   datasetModel = datasetModel;
   datasetRt = datasetRt;
@@ -26,12 +26,14 @@ export class ChartService {
     population: number,
     transmission: number,
     recovery: number,
-    infected: number
+    infected: number,
+    incubation: number
   ) {
     let url =
-      `${this.baseUrl}/sir?N=${population}` +
+      `${this.baseUrl}/seir?N=${population}` +
       `&beta=${transmission}` +
       `&gamma=${recovery}` +
+      `&alpha=${incubation}` +
       `&I0=${infected}`;
     return this.http.get(url);
   }
@@ -108,6 +110,14 @@ let datasetModel = [
     borderColor: '#A80F0A',
     backgroundColor: '#A80F0A',
     tension: 0.1,
+  },
+  {
+    label: 'Expostos',
+    data: [],
+    fill: false,
+    borderColor: '#db7e7b',
+    backgroundColor: '#db7e7b',
+    tension: 0.05,
   },
   {
     label: 'Recuperados',

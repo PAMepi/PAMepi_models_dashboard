@@ -42,8 +42,8 @@ async def model_sir(N: Optional[int] = 1000, I0: Optional[int] = 1,
 
 @app.get("/api/seir")
 async def model_sir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optional[int] = 0, 
-        R0: Optional[int] = 0, alpha: Optional[float] = 1/100, beta: Optional[float] = 0.2, gamma: Optional[float] = 1/10,
-        t_max: Optional[int] = 1000):
+        R0: Optional[int] = 0, alpha: Optional[float] = 1/2 , beta: Optional[float] = 0.2, gamma: Optional[float] = 1/2,
+        t_max: Optional[int] = 100):
     data = calculate_SEIR_model(
         N = N, I0 = I0, R0 = R0, E0 = E0, alpha = alpha, beta = beta,
         gamma = gamma, t_max = t_max

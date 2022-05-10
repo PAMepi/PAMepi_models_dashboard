@@ -25,7 +25,7 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     S, I, R = ret.T 
     S = np.array(S.astype(int))
     I = np.array(I.astype(int))
-    R = np.array(R.astype(int))
+    R = np.array(R)
 
     if R0 == 0:
         R0 = beta/gamma
@@ -34,12 +34,15 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     C = N - S
     Cd = np.diff(C)
 
-    final = np.where(np.diff(R)[50:] < 1)[0][0]
+    try:
+        final = np.where(np.diff(R) < 0.1)[0][0]
+    except IndexError as e:
+        final = t_max
 
     data = [
             {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
             {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
-            {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
+            {'label': 'Recuperados', 'data': add_date(R[:final].astype(int).tolist())}
         ]
 
     return {
@@ -51,11 +54,12 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
         ]}
 
 
-def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/10, t_max = 365):
+def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/2, t_max = 100):
     # initial number of infected and recovered individuals
-    S0 = N - I0 - R0
-
-    t = np.linspace(0, t_max, t_max)
+    e_initial = 1/N
+    i_initial = I0/N
+    r_initial = E0/N
+    s_initial = 1 - e_initial - i_initial - r_initial
     
     # SEIR model differential equations.
     def deriv(x, t, alpha, beta, gamma):
@@ -66,25 +70,33 @@ def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.
         drdt =  gamma * i
         return [dsdt, dedt, didt, drdt]
 
-
-    x_initial = S0, E0, I0, R0
+    t = np.linspace(0, t_max, t_max)
+    x_initial = s_initial, e_initial, i_initial, r_initial
     soln = odeint(deriv, x_initial, t, args=(alpha, beta, gamma))
-    S, E, I, R = soln.T
+    S, E, I, R = soln.T*N
+
+    S = np.array(S.astype(int))
+    E = np.array(E.astype(int))
+    I = np.array(I.astype(int))
+    R = np.array(R)
 
     if R0 == 0:
         R0 = beta/gamma
 
     Rt = (R0*S)/N
     C = N - S
-    Cd = np.diff(I)
+    Cd = np.diff(C)
 
-    final = np.where(np.diff(R) < 00000.1)[0][0]
+    try:
+        final = np.where(np.diff(R) < 0.1)[0][0]
+    except IndexError as e:
+        final = t_max
 
     data = [
             {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
             {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
             {'label': 'Expostos', 'data': add_date(E[:final].tolist())},
-            {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
+            {'label': 'Recuperados', 'data': add_date(R[:final].astype(int).tolist())}
         ]
 
     return {

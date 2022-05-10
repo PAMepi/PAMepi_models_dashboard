@@ -30,6 +30,7 @@ export class ChartModelsComponent implements OnInit {
     initial_infected: 1,
     transmission_rate: 0.5,
     recovery_rate: 0.2,
+    incubation_rate: 2
   };
 
   chart: any;
@@ -82,7 +83,8 @@ export class ChartModelsComponent implements OnInit {
         this.data.total_population,
         this.data.transmission_rate,
         this.data.recovery_rate,
-        this.data.initial_infected
+        this.data.initial_infected,
+        1/this.data.incubation_rate
       )
       .subscribe((res: any) => {
         this.chartService.addData(this.chart, res.data);

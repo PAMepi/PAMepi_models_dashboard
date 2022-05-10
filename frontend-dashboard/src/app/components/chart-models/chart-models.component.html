@@ -78,6 +78,20 @@
               data.transmission_rate.toFixed(2)
             }}</span>
           </div>
+          <div class="input-slider">
+            <label>Período de Incubação do Vírus</label>
+            <input
+              type="range"
+              min="2"
+              max="4"
+              step="any"
+              [(ngModel)]="data.incubation_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.incubation_rate.toFixed(2)
+            }}</span>
+          </div>
         </div>
         <div class="box-btn text-center mt-4">
           <button (click)="updateChartSIR()" class="btn-chart">Calcular</button>
