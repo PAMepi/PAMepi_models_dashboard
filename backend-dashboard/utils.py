@@ -37,17 +37,17 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     final = np.where(np.diff(R)[50:] < 1)[0][0]
 
     data = [
-            {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
-            {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
-            {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
+            {'label': 'Suscetíveis', 'data': (S[:final].tolist())},
+            {'label': 'Infectados', 'data': (I[:final].tolist())},
+            {'label': 'Recuperados', 'data': (R[:final].tolist())}
         ]
 
     return {
         'data': data, 
-        'rt': [{'label': 'Rt', 'data': add_date(Rt[:final].tolist())}],
+        'rt': [{'label': 'Rt', 'data': (Rt[:final].tolist())}],
         'casos': [
-            {'label': 'Casos Acumulados', 'data': add_date(C[:final].tolist())},
-            {'label': 'Casos Diários', 'data': add_date(Cd[:final].tolist())}
+            {'label': 'Casos Acumulados', 'data': (C[:final].tolist())},
+            {'label': 'Casos Diários', 'data': (Cd[:final].tolist())}
         ]}
 
 
@@ -81,20 +81,17 @@ def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.
     final = np.where(np.diff(R) < 00000.1)[0][0]
 
     data = [
-            {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
-            {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
-            {'label': 'Expostos', 'data': add_date(E[:final].tolist())},
-            {'label': 'Recuperados', 'data': add_date(R[:final].tolist())}
+            {'label': 'Suscetíveis', 'data': (S[:final].tolist())},
+            {'label': 'Infectados', 'data': (I[:final].tolist())},
+            {'label': 'Expostos', 'data': (E[:final].tolist())},
+            {'label': 'Recuperados', 'data': (R[:final].tolist())}
         ]
 
     return {
         'data': data, 
-        'rt': [{'label': 'Rt', 'data': add_date(Rt[:final].tolist())}],
+        'rt': [{'label': 'Rt', 'data': (Rt[:final].tolist())}],
         'casos': [
-            {'label': 'Casos Acumulados', 'data': add_date(C[:final].tolist())},
-            {'label': 'Casos Diários', 'data': add_date(Cd[:final].tolist())}
+            {'label': 'Casos Acumulados', 'data': (C[:final].tolist())},
+            {'label': 'Casos Diários', 'data': (Cd[:final].tolist())}
         ]}
 
-def add_date(lista):
-    today = date.today()
-    return [{'x': today + timedelta(days=index), 'y': lista[index]} for index, y in enumerate(lista)]

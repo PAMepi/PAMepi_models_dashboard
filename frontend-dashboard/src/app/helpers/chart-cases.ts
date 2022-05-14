@@ -1,4 +1,4 @@
-export const chartModelOptions: Highcharts.Options = {
+export const chartCasesOptions: Highcharts.Options = {
   title: {
     text: undefined,
   },

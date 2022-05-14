@@ -1,12 +1,13 @@
-import { chartModelOptions } from './../../helpers/chart-model';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { chartCasesOptions } from './../../helpers/chart-cases';
+import { chartRtOptions } from './../../helpers/chart-rt';
+import { chartModelOptions } from '../../helpers/chart-model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartService } from '../../services/chart.service';
-import {  registerables } from 'chart.js';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
 import { SIR } from '../../models/SIR';
-import { Chart } from 'angular-highcharts';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-chart-models',
@@ -14,20 +15,13 @@ import { Chart } from 'angular-highcharts';
   styleUrls: ['./chart-models.component.css'],
 })
 export class ChartModelsComponent implements OnInit {
-  chartTest:Chart = new Chart(chartModelOptions)
-
+  Highcharts: typeof Highcharts = Highcharts;
+  flagUpdate: boolean = false;
+  chartRt: Highcharts.Options = chartModelOptions;
+  chartCases: Highcharts.Options = chartCasesOptions;
+  chartModel: Highcharts.Options = chartRtOptions;
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-
-  // chartjs
-  @ViewChild('chart', { static: true })
-  elemento!: ElementRef;
-
-  @ViewChild('chartRt', { static: true })
-  elementoRt!: ElementRef;
-
-  @ViewChild('chartTx', { static: true })
-  elementoTx!: ElementRef;
 
   data: SIR = {
     total_population: 5000,
@@ -36,30 +30,16 @@ export class ChartModelsComponent implements OnInit {
     recovery_rate: 0.2,
   };
 
-  chart: any;
-  chartRt: any;
-  chartTx: any;
-
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService
-  ) {
-    // Chart.register(...registerables);
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.chart = this.chartService.makeChart(this.elemento.nativeElement);
-    this.chartRt = this.chartService.makeChart(
-      this.elementoRt.nativeElement,
-      this.chartService.datasetRt
-    );
-    this.chartTx = this.chartService.makeChart(
-      this.elementoTx.nativeElement,
-      this.chartService.datasetTx,
-      'bar'
-    );
-
-    this.updateChartSIR();
+    this.chartUpdate();
+    this.addDataModels();
+    this.addDataRt();
+    this.addDataCases();
   }
 
   ngAfterViewInit() {
@@ -77,10 +57,64 @@ export class ChartModelsComponent implements OnInit {
       });
   }
 
-  updateChartSIR() {
-    this.chartService.removeData(this.chart);
-    this.chartService.removeData(this.chartRt);
-    this.chartService.removeData(this.chartTx);
+  addDataCases() {
+    this.chartCases.series = [
+      {
+        name: 'Casos Acumulados',
+        data: [],
+        type: 'column',
+      },
+      {
+        name: 'Casos Diários',
+        data: [],
+        type: 'column',
+      },
+    ];
+  }
+
+  addDataRt() {
+    this.chartRt.series = [
+      {
+        marker: {
+          enabled: false,
+        },
+        name: 'RT',
+        data: [],
+        type: 'line',
+      },
+    ];
+  }
+
+  addDataModels() {
+    this.chartModel.series = [
+      {
+        marker: {
+          enabled: false,
+        },
+        name: 'Suscetíveis',
+        data: [],
+        type: 'line',
+      },
+      {
+        marker: {
+          enabled: false,
+        },
+        name: 'Infectados',
+        data: [],
+        type: 'line',
+      },
+      {
+        marker: {
+          enabled: false,
+        },
+        name: 'Recuperados',
+        data: [],
+        type: 'line',
+      },
+    ];
+  }
+
+  chartUpdate() {
     this.chartService
       .updateChartSIR(
         this.data.total_population,
@@ -89,9 +123,82 @@ export class ChartModelsComponent implements OnInit {
         this.data.initial_infected
       )
       .subscribe((res: any) => {
-        this.chartService.addData(this.chart, res.data);
-        this.chartService.addData(this.chartRt, res.rt);
-        this.chartService.addData(this.chartTx, res.casos);
+        console.log(res);
+        this.chartModel.series![0] = {
+          type: 'line',
+          name: 'Suscetíveis',
+          data: res.data[0].data,
+        };
+        this.chartModel.series![1] = {
+          type: 'line',
+          name: 'Infectados',
+          data: res.data[1].data,
+        };
+        this.chartModel.series![2] = {
+          type: 'line',
+          name: 'Recuperados',
+          data: res.data[2].data,
+        };
+        this.chartRt.series![0] = {
+          type: 'line',
+          name: 'RT',
+          data: res.rt[0].data,
+        };
+        this.chartCases.series![0] = {
+          type: 'column',
+          name: 'Casos Acumulados',
+          data: res.casos[0].data,
+        };
+        this.chartCases.series![1] = {
+          type: 'column',
+          name: 'Casos Diários',
+          data: res.casos[1].data,
+        };
+
+        this.flagUpdate = true;
       });
   }
+
+  highchartsOptions = Highcharts.setOptions({
+    lang: {
+      loading: 'Aguarde...',
+      months: [
+        'Janeiro',
+        'Fevereiro',
+        'Março',
+        'Abril',
+        'Maio',
+        'Junho',
+        'Julho',
+        'Agosto',
+        'Setembro',
+        'Outubro',
+        'Novembro',
+        'Dezembro',
+      ],
+      weekdays: [
+        'Domingo',
+        'Segunda',
+        'Terça',
+        'Quarta',
+        'Quinta',
+        'Sexta',
+        'Sábado',
+      ],
+      shortMonths: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Abr',
+        'Maio',
+        'Jun',
+        'Jul',
+        'Ago',
+        'Set',
+        'Out',
+        'Nov',
+        'Dez',
+      ],
+    },
+  });
 }

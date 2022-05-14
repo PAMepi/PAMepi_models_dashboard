@@ -1,11 +1,11 @@
-export const chartModelOptions: Highcharts.Options = {
+export const chartRtOptions: Highcharts.Options = {
   title: {
     text: undefined,
   },
   chart: {
     backgroundColor: '#eeeeee',
   },
-  series: [],
+  series: [ ],
   xAxis: {
     gridLineWidth: 2,
     type: 'datetime',
@@ -25,3 +25,4 @@ export const chartModelOptions: Highcharts.Options = {
     verticalAlign: 'top',
   },
 };
+
