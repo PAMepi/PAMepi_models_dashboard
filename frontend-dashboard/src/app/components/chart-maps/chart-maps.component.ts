@@ -1,18 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { MapChart } from 'angular-highcharts';
+
 import { chartMapOptions } from 'src/app/helpers/chart-map';
+import Highcharts from 'highcharts';
 
 @Component({
   selector: 'app-chart-maps',
   templateUrl: './chart-maps.component.html',
-  styleUrls: ['./chart-maps.component.css']
+  styleUrls: ['./chart-maps.component.css'],
 })
 export class ChartMapsComponent implements OnInit {
-  chartMap:MapChart = new MapChart(chartMapOptions)
 
-  constructor() { }
+
+
+
+  constructor() {}
 
   ngOnInit(): void {
+
   }
+
 
 }

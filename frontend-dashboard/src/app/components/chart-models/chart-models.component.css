@@ -143,6 +143,11 @@ input:focus,
 select:focus {
   box-shadow: none;
 }
+/*
+.h{
+  background-color: aqua;
+  width: 200px;
+} */
 
 @media (min-height: 700px) {
   .projection-container h2 {
@@ -225,3 +230,4 @@ select:focus {
     padding: 10px;
   }
 }
+
