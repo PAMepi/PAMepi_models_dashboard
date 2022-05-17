@@ -17,12 +17,11 @@ import * as Highcharts from 'highcharts';
 export class ChartModelsComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts;
   flagUpdate: boolean = false;
-  chartRt: Highcharts.Options = chartModelOptions;
+  chartRt: Highcharts.Options = chartRtOptions;
   chartCases: Highcharts.Options = chartCasesOptions;
-  chartModel: Highcharts.Options = chartRtOptions;
+  chartModel: Highcharts.Options = chartModelOptions;
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
@@ -33,13 +32,17 @@ export class ChartModelsComponent implements OnInit {
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService
-  ) {}
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.chartUpdate();
     this.addDataModels();
     this.addDataRt();
     this.addDataCases();
+
+
   }
 
   ngAfterViewInit() {
@@ -63,11 +66,14 @@ export class ChartModelsComponent implements OnInit {
         name: 'Casos Acumulados',
         data: [],
         type: 'column',
+        color:'#15133C',
+
       },
       {
         name: 'Casos Diários',
         data: [],
         type: 'column',
+        color:'#73777B'
       },
     ];
   }
@@ -81,6 +87,8 @@ export class ChartModelsComponent implements OnInit {
         name: 'RT',
         data: [],
         type: 'line',
+        lineWidth: 4,
+        color:'#022C64'
       },
     ];
   }
@@ -94,6 +102,8 @@ export class ChartModelsComponent implements OnInit {
         name: 'Suscetíveis',
         data: [],
         type: 'line',
+        lineWidth: 4,
+        color:'#001D6E'
       },
       {
         marker: {
@@ -102,6 +112,8 @@ export class ChartModelsComponent implements OnInit {
         name: 'Infectados',
         data: [],
         type: 'line',
+        lineWidth: 4,
+        color:'#A80F0A'
       },
       {
         marker: {
@@ -110,6 +122,8 @@ export class ChartModelsComponent implements OnInit {
         name: 'Recuperados',
         data: [],
         type: 'line',
+        lineWidth: 4,
+        color:'#446A46'
       },
     ];
   }
@@ -124,36 +138,36 @@ export class ChartModelsComponent implements OnInit {
       )
       .subscribe((res: any) => {
         console.log(res);
-        this.chartModel.series![0] = {
+        this.chartModel.series= [{
           type: 'line',
           name: 'Suscetíveis',
           data: res.data[0].data,
-        };
-        this.chartModel.series![1] = {
+        },
+         {
           type: 'line',
           name: 'Infectados',
           data: res.data[1].data,
-        };
-        this.chartModel.series![2] = {
+        },
+        {
           type: 'line',
           name: 'Recuperados',
           data: res.data[2].data,
-        };
-        this.chartRt.series![0] = {
+        }]
+        this.chartRt.series= [{
           type: 'line',
           name: 'RT',
           data: res.rt[0].data,
-        };
-        this.chartCases.series![0] = {
+        }];
+        this.chartCases.series=[{
           type: 'column',
           name: 'Casos Acumulados',
           data: res.casos[0].data,
-        };
-        this.chartCases.series![1] = {
+        },
+        {
           type: 'column',
           name: 'Casos Diários',
           data: res.casos[1].data,
-        };
+        }];
 
         this.flagUpdate = true;
       });

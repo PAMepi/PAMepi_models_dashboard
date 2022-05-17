@@ -5,6 +5,9 @@ export const chartCasesOptions: Highcharts.Options = {
   chart: {
     backgroundColor: '#eeeeee',
   },
+  credits: {
+    enabled: false
+},
   series: [],
   xAxis: {
     gridLineWidth: 2,
@@ -14,11 +17,21 @@ export const chartCasesOptions: Highcharts.Options = {
       year: '%b',
     },
   },
+  yAxis:{
+    title: {
+      text: 'População'
+    },
+  },
   plotOptions: {
     series: {
       pointStart: Number(new Date()),
       pointInterval: 24 * 3600 * 1000,
+
     },
+    column:{
+      pointWidth: 8
+    }
+
   },
   legend: {
     align: 'center',

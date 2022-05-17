@@ -91,10 +91,9 @@
         <app-loader></app-loader>
       </div>
       <div class="chart-container">
-        <section class="chart-main">
+        <section class="chart-main row">
           <h2>Modelo SIR</h2>
           <highcharts-chart
-            style="width: 100%; height: 400px; display: block"
             [Highcharts]="Highcharts"
             [options]="chartModel"
             [(update)]="flagUpdate"

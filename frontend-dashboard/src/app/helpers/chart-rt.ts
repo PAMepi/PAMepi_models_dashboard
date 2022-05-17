@@ -5,6 +5,9 @@ export const chartRtOptions: Highcharts.Options = {
   chart: {
     backgroundColor: '#eeeeee',
   },
+  credits: {
+    enabled: false
+},
   series: [ ],
   xAxis: {
     gridLineWidth: 2,
@@ -12,6 +15,11 @@ export const chartRtOptions: Highcharts.Options = {
     dateTimeLabelFormats: {
       month: '%e. %b',
       year: '%b',
+    },
+  },
+  yAxis:{
+    title: {
+      text: undefined
     },
   },
   plotOptions: {
