@@ -29,7 +29,7 @@ export const chartCasesOptions: Highcharts.Options = {
 
     },
     column:{
-      pointWidth: 8
+      pointWidth: 5
     }
 
   },

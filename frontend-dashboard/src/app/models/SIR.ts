@@ -3,4 +3,5 @@ export interface SIR {
   initial_infected: number;
   transmission_rate: number;
   recovery_rate: number;
+  incubation_rate: number;
 }

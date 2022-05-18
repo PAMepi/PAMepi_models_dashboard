@@ -1,8 +1,8 @@
+import { ChartService } from './../../services/chart.service';
 import { chartCasesOptions } from './../../helpers/chart-cases';
 import { chartRtOptions } from './../../helpers/chart-rt';
 import { chartModelOptions } from '../../helpers/chart-model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ChartService } from '../../services/chart.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
@@ -20,20 +20,24 @@ export class ChartModelsComponent implements OnInit {
   chartRt: Highcharts.Options = chartRtOptions;
   chartCases: Highcharts.Options = chartCasesOptions;
   chartModel: Highcharts.Options = chartModelOptions;
+  chart!: Highcharts.Chart;
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
+  selectModel: string = 'sir';
+  oneToOneFlag: boolean = false;
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
     transmission_rate: 0.5,
     recovery_rate: 0.2,
+    incubation_rate: 2,
   };
 
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService
   ) {
-
+    console.log(this.selectModel);
   }
 
   ngOnInit(): void {
@@ -41,8 +45,6 @@ export class ChartModelsComponent implements OnInit {
     this.addDataModels();
     this.addDataRt();
     this.addDataCases();
-
-
   }
 
   ngAfterViewInit() {
@@ -66,14 +68,13 @@ export class ChartModelsComponent implements OnInit {
         name: 'Casos Acumulados',
         data: [],
         type: 'column',
-        color:'#15133C',
-
+        color: '#15133C',
       },
       {
         name: 'Casos Diários',
         data: [],
         type: 'column',
-        color:'#73777B'
+        color: '#73777B',
       },
     ];
   }
@@ -88,7 +89,7 @@ export class ChartModelsComponent implements OnInit {
         data: [],
         type: 'line',
         lineWidth: 4,
-        color:'#022C64'
+        color: '#022C64',
       },
     ];
   }
@@ -103,7 +104,7 @@ export class ChartModelsComponent implements OnInit {
         data: [],
         type: 'line',
         lineWidth: 4,
-        color:'#001D6E'
+        color: '#001D6E',
       },
       {
         marker: {
@@ -113,7 +114,7 @@ export class ChartModelsComponent implements OnInit {
         data: [],
         type: 'line',
         lineWidth: 4,
-        color:'#A80F0A'
+        color: '#A80F0A',
       },
       {
         marker: {
@@ -123,11 +124,53 @@ export class ChartModelsComponent implements OnInit {
         data: [],
         type: 'line',
         lineWidth: 4,
-        color:'#446A46'
+        color: '#446A46',
       },
     ];
   }
 
+  chartUpdateSeir() {
+    this.chartService
+      .updateChartSEIR(
+        this.data.total_population,
+        this.data.transmission_rate,
+        this.data.recovery_rate,
+        this.data.initial_infected,
+        this.data.incubation_rate
+      )
+      .subscribe((res: any) => {
+        console.log(res.data.filter( (d:any ) => d.label == 'Suscetíveis' ))
+        this.chartModel.series = [
+          {
+            type: 'line',
+            name: 'Suscetíveis',
+            data: res.data.filter( (d:any ) => d.label == 'Suscetíveis')[0].data,
+          },
+          {
+            type: 'line',
+            name: 'Infectados',
+            data:res.data.filter( (d:any ) => d.label == 'Infectados')[0].data,
+          },
+          {
+            type: 'line',
+            name: 'Recuperados',
+            data: res.data.filter( (d:any ) => d.label == 'Recuperados')[0].data,
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            name: 'Expostos',
+            data: res.data.filter( (d:any ) => d.label == 'Expostos')[0].data,
+            type: 'line',
+            lineWidth: 4,
+            color: 'pink',
+          },
+        ];
+        this.oneToOneFlag = true;
+        this.flagUpdate = true;
+      });
+  }
   chartUpdate() {
     this.chartService
       .updateChartSIR(
@@ -137,40 +180,53 @@ export class ChartModelsComponent implements OnInit {
         this.data.initial_infected
       )
       .subscribe((res: any) => {
-        console.log(res);
-        this.chartModel.series= [{
-          type: 'line',
-          name: 'Suscetíveis',
-          data: res.data[0].data,
-        },
-         {
-          type: 'line',
-          name: 'Infectados',
-          data: res.data[1].data,
-        },
-        {
-          type: 'line',
-          name: 'Recuperados',
-          data: res.data[2].data,
-        }]
-        this.chartRt.series= [{
-          type: 'line',
-          name: 'RT',
-          data: res.rt[0].data,
-        }];
-        this.chartCases.series=[{
-          type: 'column',
-          name: 'Casos Acumulados',
-          data: res.casos[0].data,
-        },
-        {
-          type: 'column',
-          name: 'Casos Diários',
-          data: res.casos[1].data,
-        }];
-
+        this.chartModel.series = [
+          {
+            type: 'line',
+            name: 'Suscetíveis',
+            data: res.data.filter( (d:any ) => d.label == 'Suscetíveis')[0].data,
+          },
+          {
+            type: 'line',
+            name: 'Infectados',
+            data:res.data.filter( (d:any ) => d.label == 'Infectados')[0].data,
+          },
+          {
+            type: 'line',
+            name: 'Recuperados',
+            data: res.data.filter( (d:any ) => d.label == 'Recuperados')[0].data,
+          },
+        ];
+        this.chartRt.series = [
+          {
+            type: 'line',
+            name: 'RT',
+            data: res.rt[0].data,
+          },
+        ];
+        this.chartCases.series = [
+          {
+            type: 'column',
+            name: 'Casos Acumulados',
+            data: res.casos[0].data,
+          },
+          {
+            type: 'column',
+            name: 'Casos Diários',
+            data: res.casos[1].data,
+          },
+        ];
+        this.oneToOneFlag =true
         this.flagUpdate = true;
       });
+  }
+
+  changeModel(event: any) {
+    if(event.target.value == 'seir'){
+      this.chartUpdateSeir()
+    }else{
+      this.chartUpdate()
+    }
   }
 
   highchartsOptions = Highcharts.setOptions({
