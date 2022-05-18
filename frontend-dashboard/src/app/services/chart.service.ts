@@ -36,7 +36,7 @@ export class ChartService {
     `${this.baseUrl}/seir?N=${population}` +
     `&beta=${transmission}` +
     `&gamma=${recovery}` +
-    `&alpha=${incubation}` +
+    `&alpha=${1/incubation}` +
     `&I0=${infected}`;
     return this.http.get(url);
   }
