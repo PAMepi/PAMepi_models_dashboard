@@ -20,6 +20,7 @@ export class ChartModelsComponent implements OnInit {
   sidenav!: MatSidenav;
   Highcharts: typeof Highcharts = Highcharts;
   flagUpdate: boolean = false;
+  chartTitle:string = 'SIR'
   selectModel: string = 'sir';
   oneToOneFlag: boolean = false;
   chartRt: Highcharts.Options = chartRtOptions;
@@ -192,8 +193,10 @@ export class ChartModelsComponent implements OnInit {
   changeModel(event: any) {
     if (event.target.value == 'seir') {
       this.chartUpdateSeir();
+      this.chartTitle = 'SEIR'
     } else {
       this.chartUpdate();
+      this.chartTitle = 'SIR'
     }
   }
 
