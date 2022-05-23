@@ -116,6 +116,7 @@ export class ChartModelsComponent implements OnInit {
             lineWidth: 4,
             color: '#0a516d',
           },
+     
         ];
         this.chartCases.series = [
           {
@@ -187,6 +188,32 @@ export class ChartModelsComponent implements OnInit {
             type: 'line',
             lineWidth: 4,
             color: '#fab243',
+          },
+        ];
+        this.chartRt.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'RT',
+            data: res.rt[0].data,
+            lineWidth: 4,
+            color: '#0a516d',
+          },
+        ];
+        this.chartCases.series = [
+          {
+            type: 'column',
+            name: 'Casos Acumulados',
+            data: res.casos[0].data,
+            color: '#696758',
+          },
+          {
+            type: 'column',
+            name: 'Casos Diários',
+            data: res.casos[1].data,
+            color: '#0a516d',
           },
         ];
         this.oneToOneFlag = true;
