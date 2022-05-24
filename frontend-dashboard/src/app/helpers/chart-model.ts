@@ -32,4 +32,21 @@ export const chartModelOptions: Highcharts.Options = {
     align: 'center',
     verticalAlign: 'top',
   },
+  exporting: {
+    buttons: {
+      contextButton: {
+        menuItems: ['downloadCSV', 'downloadSVG','downloadPDF', 'downloadPNG'],
+      },
+
+    },
+  },
+ navigation:{
+  buttonOptions:{
+    theme:{
+     fill:'#eeeeee',
+     stroke:'none'
+
+    }
+  }
+ }
 };

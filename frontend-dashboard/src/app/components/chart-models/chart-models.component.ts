@@ -9,6 +9,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
 import { SIR } from '../../models/SIR';
 import * as Highcharts from 'highcharts';
+import HC_exporting from "highcharts/modules/exporting";
+import HC_Data from "highcharts/modules/export-data";
+HC_exporting(Highcharts);
+HC_Data(Highcharts);
 
 @Component({
   selector: 'app-chart-models',
