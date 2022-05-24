@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  {path:'', redirectTo:'/chart', pathMatch:'full'},
+  { path: '**', redirectTo: '/chart'},
   { path: 'chart', component: ChartModelsComponent },
   {path: 'map', component:ChartMapsComponent}
 ];

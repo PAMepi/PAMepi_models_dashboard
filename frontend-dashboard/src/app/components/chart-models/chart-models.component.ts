@@ -9,8 +9,8 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
 import { SIR } from '../../models/SIR';
 import * as Highcharts from 'highcharts';
-import HC_exporting from "highcharts/modules/exporting";
-import HC_Data from "highcharts/modules/export-data";
+import HC_exporting from 'highcharts/modules/exporting';
+import HC_Data from 'highcharts/modules/export-data';
 HC_exporting(Highcharts);
 HC_Data(Highcharts);
 
@@ -24,13 +24,18 @@ export class ChartModelsComponent implements OnInit {
   sidenav!: MatSidenav;
   Highcharts: typeof Highcharts = Highcharts;
   flagUpdate: boolean = false;
-  chartTitle:string = 'SIR'
+  chartTitle: string = 'SIR';
   selectModel: string = 'sir';
   oneToOneFlag: boolean = false;
   chartRt: Highcharts.Options = chartRtOptions;
   chartCases: Highcharts.Options = chartCasesOptions;
   chartModel: Highcharts.Options = chartModelOptions;
   translatePt = highchartsOptions;
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
+    setTimeout(() => {
+      chart.reflow();
+    }, 100);
+  };
 
   data: SIR = {
     total_population: 5000,
@@ -116,7 +121,6 @@ export class ChartModelsComponent implements OnInit {
             lineWidth: 4,
             color: '#0a516d',
           },
-     
         ];
         this.chartCases.series = [
           {
@@ -224,11 +228,10 @@ export class ChartModelsComponent implements OnInit {
   changeModel(event: any) {
     if (event.target.value == 'seir') {
       this.chartUpdateSeir();
-      this.chartTitle = 'SEIR'
+      this.chartTitle = 'SEIR';
     } else {
       this.chartUpdate();
-      this.chartTitle = 'SIR'
+      this.chartTitle = 'SIR';
     }
   }
-
 }
