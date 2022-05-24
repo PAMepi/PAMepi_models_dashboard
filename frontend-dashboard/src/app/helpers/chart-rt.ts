@@ -21,6 +21,12 @@ export const chartRtOptions: Highcharts.Options = {
     title: {
       text: undefined
     },
+    plotLines: [{
+      value: 1,
+      color: 'red',
+      width: 2,
+      dashStyle:'Dash'
+  }]
   },
   plotOptions: {
     series: {
