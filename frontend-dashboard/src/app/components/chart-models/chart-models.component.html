@@ -116,6 +116,7 @@
             [options]="chartModel"
             [(update)]="flagUpdate"
             [oneToOne]="oneToOneFlag"
+            [callbackFunction]="chartCallback"
 
 
           ></highcharts-chart>
@@ -131,6 +132,7 @@
               [options]="chartRt"
               [(update)]="flagUpdate"
               [oneToOne]="oneToOneFlag"
+              [callbackFunction]="chartCallback"
             ></highcharts-chart>
           </div>
         </div>
@@ -143,6 +145,7 @@
               [options]="chartCases"
               [(update)]="flagUpdate"
               [oneToOne]="oneToOneFlag"
+              [callbackFunction]="chartCallback"
             ></highcharts-chart>
           </div>
         </div>
