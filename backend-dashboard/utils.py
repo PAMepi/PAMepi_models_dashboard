@@ -26,7 +26,7 @@ def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, t_m
     return format_output(S, I, R, N, R0, beta, gamma, t_max)
 
 
-def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/2, t_max = 100):
+def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/2, t_max = 365):
     # initial number of infected and recovered individuals
     e_initial = 1/N
     i_initial = I0/N
@@ -49,6 +49,33 @@ def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.
 
     return format_output(S, I, R, N, R0, beta, gamma, t_max, E=E)
 
+def calculate_SEIIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.02, gamma = 1/10, gammaA= 1/2, t_max = 365, rho = 0.6):
+    # initial number of infected and recovered individuals
+    e_initial = 1/N
+    i_initial = I0/N
+    ia_initial = 0
+    r_initial = E0/N
+    s_initial = 1 - e_initial - i_initial - r_initial
+    
+    delta = 1
+
+    # SEIR model differential equations.
+    def deriv(x, t, alpha, beta, gamma, delta, rho, gammaA):
+        s, e, i, ia, r = x
+        dsdt = - beta * s * (i + delta * ia)
+        dedt =  beta * s * (i + delta * ia) - alpha  * e
+        didt = rho * alpha * e - (gamma * i)
+        diadt = (1 - rho) * alpha * e - (gammaA * ia)
+        drdt =  gammaA * ia + gamma * i 
+        return [dsdt, dedt, didt, diadt, drdt]
+
+    t = np.linspace(0, t_max, t_max)
+    x_initial = s_initial, e_initial, i_initial, ia_initial, r_initial
+    soln = odeint(deriv, x_initial, t, args=(alpha, beta, gamma, delta, rho, gammaA))
+    S, E, I, Ia, R = soln.T*N
+
+    return format_output(S, I, R, N, R0, beta, gamma, t_max, E=E, Ia=Ia)
+
 def format_output(S, I, R, N, R0, beta, gamma, t_max, **kwargs):
     S = np.array(S.astype(int))
     I = np.array(I.astype(int))
@@ -65,7 +92,7 @@ def format_output(S, I, R, N, R0, beta, gamma, t_max, **kwargs):
     Cd = np.diff(C)
 
     try:
-        final = np.where(np.diff(R) < 0.1)[0][0]
+        final = np.where(np.diff(R) < 0.001)[0][0]
     except IndexError as e:
         final = t_max
 

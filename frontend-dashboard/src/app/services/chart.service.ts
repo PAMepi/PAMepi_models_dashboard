@@ -5,12 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ChartService {
-<<<<<<< HEAD
-  SIR!: SIR;
   baseUrl: string = '/api';
-=======
-  baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
->>>>>>> main
 
 
   constructor(private http: HttpClient) {}
@@ -41,6 +36,22 @@ export class ChartService {
   ) {
     let url =
     `${this.baseUrl}/seir?N=${population}` +
+    `&beta=${transmission}` +
+    `&gamma=${recovery}` +
+    `&alpha=${1/incubation}` +
+    `&I0=${infected}`;
+    return this.http.get(url);
+  }
+
+  updateChartSEIIR(
+    population: number,
+    transmission: number,
+    recovery: number,
+    infected: number,
+    incubation: number
+  ) {
+    let url =
+    `${this.baseUrl}/seiir?N=${population}` +
     `&beta=${transmission}` +
     `&gamma=${recovery}` +
     `&alpha=${1/incubation}` +
