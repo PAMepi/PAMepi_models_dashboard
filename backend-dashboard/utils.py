@@ -49,40 +49,6 @@ def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, alpha = 1/5, beta = 0.
 
     return format_output(S, I, R, N, R0, beta, gamma, t_max, E=E)
 
-
-def calculate_SEIIR_model():
-
-    #variables
-    S, E, Ia, Is, R, Tt = f
-    
-    #define parameters for one beta
-    beta, delta, rho, kappa, gammaA, gammaS = parametros
-    
-    #define derivatives for single beta
-    dS_dt = - beta * S * (Is + delta * Ia)
-    dE_dt = beta * S * (Is + delta * Ia) - kappa * E
-    dTt_dt = rho * kappa * E
-    dIa_dt = (1 - rho) * kappa * E - (gammaA * Ia)
-    dIs_dt = rho * kappa * E - (gammaS * Is)
-    dR_dt = gammaA * Ia + gammaS * Is 
-    
-    return dS_dt, dE_dt, dIa_dt, dIs_dt, dR_dt, dTt_dt
-
-def predict(self, time, beta, delta, rho, kappa, gammaA, gammaS):
-    #q0 = [1 - (self.is0 + self.ia0), self.e0, self.ia0, self.is0, 0, self.is0]
-    q0 = [1 - 0, 0, 0, 0, 0, 0]
-    parode = beta, delta, rho, kappa, gammaA, gammaS
-    predicted = odeint(self.__seiir, q0, np.arange(1, len(time) + 1), args = (parode,), mxstep = 1000000)
-    self.S = predicted[:,0]
-    self.E = predicted[:,1]
-    self.Ia = predicted[:,2]
-    self.Is = predicted[:,3]
-    self.R = predicted[:,4]
-    self.Tt = predicted[:,5]
-
-    return {"S": self.S, "E":self.E, "Ia": self.Ia, "Is": self.Is, "R": self.R, "Tt": self.Tt * self.pop}
-
-
 def format_output(S, I, R, N, R0, beta, gamma, t_max, **kwargs):
     S = np.array(S.astype(int))
     I = np.array(I.astype(int))
@@ -104,27 +70,24 @@ def format_output(S, I, R, N, R0, beta, gamma, t_max, **kwargs):
         final = t_max
 
     data = [
-            {'label': 'Suscetíveis', 'data': add_date(S[:final].tolist())},
-            {'label': 'Infectados', 'data': add_date(I[:final].tolist())},
-            {'label': 'Recuperados', 'data': add_date(R[:final].astype(int).tolist())}
+            {'label': 'Suscetíveis', 'data': (S[:final].tolist())},
+            {'label': 'Infectados', 'data': (I[:final].tolist())},
+            {'label': 'Recuperados', 'data': (R[:final].astype(int).tolist())}
         ]
 
     if "E" in kwargs:
         E = np.array(kwargs["E"].astype(int))
-        data.append({'label': 'Expostos', 'data': add_date(E[:final].tolist())})
+        data.append({'label': 'Expostos', 'data': (E[:final].tolist())})
     
     if "Ia" in kwargs:
         Ia = np.array(kwargs["Ia"].astype(int))
-        data.append({'label': 'Infectados Assintomáticos', 'data': add_date(Ia[:final].tolist())})
+        data.append({'label': 'Infectados Assintomáticos', 'data': (Ia[:final].tolist())})
 
     return {
         'data': data, 
-        'rt': [{'label': 'Rt', 'data': add_date(Rt[:final].tolist())}],
+        'rt': [{'label': 'Rt', 'data': (Rt[:final].tolist())}],
         'casos': [
-            {'label': 'Casos Acumulados', 'data': add_date(C[:final].tolist())},
-            {'label': 'Casos Diários', 'data': add_date(Cd[:final].tolist())}
+            {'label': 'Casos Acumulados', 'data': (C[:final].tolist())},
+            {'label': 'Casos Diários', 'data': (Cd[:final].tolist())}
         ]}
 
-def add_date(lista):
-    today = date.today()
-    return [{'x': today + timedelta(days=index), 'y': lista[index]} for index, y in enumerate(lista)]

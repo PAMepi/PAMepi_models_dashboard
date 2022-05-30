@@ -1,10 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChartService } from '../../services/chart.service';
-import { Chart, registerables } from 'chart.js';
+import { highchartsOptions } from '../../helpers/translate';
+import { ChartService } from './../../services/chart.service';
+import { chartCasesOptions } from './../../helpers/chart-cases';
+import { chartRtOptions } from './../../helpers/chart-rt';
+import { chartModelOptions } from '../../helpers/chart-model';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 import { delay } from 'rxjs/operators';
 import { SIR } from '../../models/SIR';
+import * as Highcharts from 'highcharts';
+import HC_exporting from 'highcharts/modules/exporting';
+import HC_Data from 'highcharts/modules/export-data';
+HC_exporting(Highcharts);
+HC_Data(Highcharts);
 
 @Component({
   selector: 'app-chart-models',
@@ -14,49 +22,36 @@ import { SIR } from '../../models/SIR';
 export class ChartModelsComponent implements OnInit {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
-
-  // chartjs
-  @ViewChild('chart', { static: true })
-  elemento!: ElementRef;
-
-  @ViewChild('chartRt', { static: true })
-  elementoRt!: ElementRef;
-
-  @ViewChild('chartTx', { static: true })
-  elementoTx!: ElementRef;
+  Highcharts: typeof Highcharts = Highcharts;
+  flagUpdate: boolean = false;
+  chartTitle: string = 'SIR';
+  selectModel: string = 'sir';
+  oneToOneFlag: boolean = false;
+  chartRt: Highcharts.Options = chartRtOptions;
+  chartCases: Highcharts.Options = chartCasesOptions;
+  chartModel: Highcharts.Options = chartModelOptions;
+  translatePt = highchartsOptions;
+  chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
+    setTimeout(() => {
+      chart.reflow();
+    }, 100);
+  };
 
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
     transmission_rate: 0.5,
     recovery_rate: 0.2,
-    incubation_rate: 2
+    incubation_rate: 2,
   };
-
-  chart: any;
-  chartRt: any;
-  chartTx: any;
 
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService
-  ) {
-    Chart.register(...registerables);
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.chart = this.chartService.makeChart(this.elemento.nativeElement);
-    this.chartRt = this.chartService.makeChart(
-      this.elementoRt.nativeElement,
-      this.chartService.datasetRt
-    );
-    this.chartTx = this.chartService.makeChart(
-      this.elementoTx.nativeElement,
-      this.chartService.datasetTx,
-      'bar'
-    );
-
-    this.updateChartSIR();
+    this.chartUpdate();
   }
 
   ngAfterViewInit() {
@@ -74,10 +69,7 @@ export class ChartModelsComponent implements OnInit {
       });
   }
 
-  updateChartSIR() {
-    this.chartService.removeData(this.chart);
-    this.chartService.removeData(this.chartRt);
-    this.chartService.removeData(this.chartTx);
+  chartUpdate() {
     this.chartService
       .updateChartSIR(
         this.data.total_population,
@@ -87,9 +79,160 @@ export class ChartModelsComponent implements OnInit {
         1/this.data.incubation_rate
       )
       .subscribe((res: any) => {
-        this.chartService.addData(this.chart, res.data);
-        this.chartService.addData(this.chartRt, res.rt);
-        this.chartService.addData(this.chartTx, res.casos);
+        this.chartModel.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Suscetíveis',
+            data: res.data.filter((d: any) => d.label == 'Suscetíveis')[0].data,
+            lineWidth: 4,
+            color: '#429867',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Infectados',
+            data: res.data.filter((d: any) => d.label == 'Infectados')[0].data,
+            lineWidth: 4,
+            color: '#c41026',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Recuperados',
+            data: res.data.filter((d: any) => d.label == 'Recuperados')[0].data,
+            lineWidth: 4,
+            color: '#2b5166',
+          },
+        ];
+        this.chartRt.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'RT',
+            data: res.rt[0].data,
+            lineWidth: 4,
+            color: '#0a516d',
+          },
+        ];
+        this.chartCases.series = [
+          {
+            type: 'column',
+            name: 'Casos Acumulados',
+            data: res.casos[0].data,
+            color: '#696758',
+          },
+          {
+            type: 'column',
+            name: 'Casos Diários',
+            data: res.casos[1].data,
+            color: '#0a516d',
+          },
+        ];
+        this.oneToOneFlag = true;
+        this.flagUpdate = true;
       });
+  }
+
+  chartUpdateSeir() {
+    this.chartService
+      .updateChartSEIR(
+        this.data.total_population,
+        this.data.transmission_rate,
+        this.data.recovery_rate,
+        this.data.initial_infected,
+        this.data.incubation_rate
+      )
+      .subscribe((res: any) => {
+        console.log(res.data.filter((d: any) => d.label == 'Suscetíveis'));
+        this.chartModel.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Suscetíveis',
+            data: res.data.filter((d: any) => d.label == 'Suscetíveis')[0].data,
+            lineWidth: 4,
+            color: '#429867',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Infectados',
+            data: res.data.filter((d: any) => d.label == 'Infectados')[0].data,
+            lineWidth: 4,
+            color: '#c41026',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Recuperados',
+            data: res.data.filter((d: any) => d.label == 'Recuperados')[0].data,
+            lineWidth: 4,
+            color: '#2b5166',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            name: 'Expostos',
+            data: res.data.filter((d: any) => d.label == 'Expostos')[0].data,
+            type: 'line',
+            lineWidth: 4,
+            color: '#fab243',
+          },
+        ];
+        this.chartRt.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'RT',
+            data: res.rt[0].data,
+            lineWidth: 4,
+            color: '#0a516d',
+          },
+        ];
+        this.chartCases.series = [
+          {
+            type: 'column',
+            name: 'Casos Acumulados',
+            data: res.casos[0].data,
+            color: '#696758',
+          },
+          {
+            type: 'column',
+            name: 'Casos Diários',
+            data: res.casos[1].data,
+            color: '#0a516d',
+          },
+        ];
+        this.oneToOneFlag = true;
+        this.flagUpdate = true;
+      });
+  }
+
+  changeModel(event: any) {
+    if (event.target.value == 'seir') {
+      this.chartUpdateSeir();
+      this.chartTitle = 'SEIR';
+    } else {
+      this.chartUpdate();
+      this.chartTitle = 'SIR';
+    }
   }
 }

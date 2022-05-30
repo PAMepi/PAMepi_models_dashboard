@@ -1,4 +1,3 @@
-
 <mat-toolbar class="mat-elevation-z8">
   <button
     mat-icon-button
@@ -14,10 +13,10 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav="matSidenav">
     <section class="projection-container">
-      <h2 class="text-center mt-3">Projeções</h2>
+      <h2 class="text-center mt-3">Simulação</h2>
       <div class="sidebar-form">
         <div class="mt-4">
-          <select class="form-select">
+          <select class="form-select" (change)="changeModel($event)" [(ngModel)]="selectModel" >
             SIR, SEIR, SEIIR
             <option selected>Selecione o Modelo</option>
             <option value="sir" selected>SIR</option>
@@ -78,12 +77,12 @@
               data.transmission_rate.toFixed(2)
             }}</span>
           </div>
-          <div class="input-slider">
+          <div class="input-slider" *ngIf="selectModel == 'seir' ">
             <label>Período de Incubação do Vírus</label>
             <input
               type="range"
               min="2"
-              max="4"
+              max="10"
               step="any"
               [(ngModel)]="data.incubation_rate"
               class="campo"
@@ -93,44 +92,64 @@
             }}</span>
           </div>
         </div>
-        <div class="box-btn text-center mt-4">
-          <button (click)="updateChartSIR()" class="btn-chart">Calcular</button>
+        <div class="box-btn text-center mt-4" *ngIf="selectModel != 'seir' ">
+          <button (click)="chartUpdate()" class="btn-chart">Calcular</button>
+        </div>
+        <div class="box-btn text-center mt-4"  *ngIf="selectModel == 'seir' ">
+          <button (click)="chartUpdateSeir()" class="btn-chart">Calcular</button>
         </div>
       </div>
     </section>
   </mat-sidenav>
 
   <mat-sidenav-content>
-
     <main class="content" #main>
       <div class="container-loader">
         <app-loader></app-loader>
       </div>
       <div class="chart-container">
-        <section class="chart-main">
-          <h2>Modelo SIR</h2>
+        <section class="chart-main row">
+          <h2>Modelo {{chartTitle}}</h2>
+          <highcharts-chart
+          style="width:100%;display: block;"
+            [Highcharts]="Highcharts"
+            [options]="chartModel"
+            [(update)]="flagUpdate"
+            [oneToOne]="oneToOneFlag"
+            [callbackFunction]="chartCallback"
 
-          <canvas #chart> </canvas>
+
+          ></highcharts-chart>
         </section>
       </div>
       <section class="charts-secondary">
         <div class="chart-rt">
-          <h2>Taxa de transmissão (Rt)</h2>
+          <h2 class="text-mobile">Taxa de transmissão (Rt)</h2>
           <div>
-            <canvas #chartRt> </canvas>
+            <highcharts-chart
+              style="width: 100%; height: 300px; display: block"
+              [Highcharts]="Highcharts"
+              [options]="chartRt"
+              [(update)]="flagUpdate"
+              [oneToOne]="oneToOneFlag"
+              [callbackFunction]="chartCallback"
+            ></highcharts-chart>
           </div>
         </div>
         <div class="chart-tc">
-          <h2>Casos diários/acumulados</h2>
+          <h2 class="text-mobile">Casos diários/acumulados</h2>
           <div>
-            <canvas #chartTx> </canvas>
+            <highcharts-chart
+              style="width: 100%; height: 300px; display: block"
+              [Highcharts]="Highcharts"
+              [options]="chartCases"
+              [(update)]="flagUpdate"
+              [oneToOne]="oneToOneFlag"
+              [callbackFunction]="chartCallback"
+            ></highcharts-chart>
           </div>
-
         </div>
       </section>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-
