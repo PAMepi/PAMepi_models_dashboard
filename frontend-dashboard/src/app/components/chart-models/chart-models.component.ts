@@ -34,7 +34,7 @@ export class ChartModelsComponent implements OnInit {
   chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
     setTimeout(() => {
       chart.reflow();
-    }, 100);
+    }, 300);
   };
 
   data: SIR = {
@@ -70,7 +70,7 @@ export class ChartModelsComponent implements OnInit {
   }
 
   chartUpdate() {
-    this.chartService
+      this.chartService
       .updateChartSIR(
         this.data.total_population,
         this.data.transmission_rate,
@@ -129,6 +129,7 @@ export class ChartModelsComponent implements OnInit {
             name: 'Casos Acumulados',
             data: res.casos[0].data,
             color: '#696758',
+            visible: false
           },
           {
             type: 'column',
@@ -140,6 +141,8 @@ export class ChartModelsComponent implements OnInit {
         this.oneToOneFlag = true;
         this.flagUpdate = true;
       });
+
+
   }
 
   chartUpdateSeir() {
@@ -213,6 +216,7 @@ export class ChartModelsComponent implements OnInit {
             name: 'Casos Acumulados',
             data: res.casos[0].data,
             color: '#696758',
+            visible: false
           },
           {
             type: 'column',

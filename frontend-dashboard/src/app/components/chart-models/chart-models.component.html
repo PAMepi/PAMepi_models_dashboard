@@ -17,8 +17,6 @@
       <div class="sidebar-form">
         <div class="mt-4">
           <select class="form-select" (change)="changeModel($event)" [(ngModel)]="selectModel" >
-            SIR, SEIR, SEIIR
-            <option selected>Selecione o Modelo</option>
             <option value="sir" selected>SIR</option>
             <option value="seir">SEIR</option>
             <option value="seiir">SEIIR</option>
@@ -77,7 +75,7 @@
               data.transmission_rate.toFixed(2)
             }}</span>
           </div>
-          <div class="input-slider" *ngIf="selectModel == 'seir' ">
+          <div class="input-slider" *ngIf="selectModel != 'sir' ">
             <label>Período de Incubação do Vírus</label>
             <input
               type="range"
@@ -91,11 +89,42 @@
               data.incubation_rate.toFixed(2)
             }}</span>
           </div>
+          <div class="input-slider" *ngIf="selectModel == 'seiir' ">
+            <label>Taxa de recuperação dos assintómaticos</label>
+            <input
+              type="range"
+              min="2"
+              max="10"
+              step="any"
+              [(ngModel)]="data.incubation_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.incubation_rate.toFixed(2)
+            }}</span>
+          </div>
+          <div class="input-slider" *ngIf="selectModel == 'seiir' ">
+            <label>Sintomáticos</label>
+            <input
+              type="range"
+              min="2"
+              max="10"
+              step="any"
+              [(ngModel)]="data.incubation_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.incubation_rate.toFixed(2)
+            }}</span>
+          </div>
         </div>
-        <div class="box-btn text-center mt-4" *ngIf="selectModel != 'seir' ">
+        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'sir' ">
           <button (click)="chartUpdate()" class="btn-chart">Calcular</button>
         </div>
         <div class="box-btn text-center mt-4"  *ngIf="selectModel == 'seir' ">
+          <button (click)="chartUpdateSeir()" class="btn-chart">Calcular</button>
+        </div>
+        <div class="box-btn text-center mt-4"  *ngIf="selectModel == 'seiir' ">
           <button (click)="chartUpdateSeir()" class="btn-chart">Calcular</button>
         </div>
       </div>
