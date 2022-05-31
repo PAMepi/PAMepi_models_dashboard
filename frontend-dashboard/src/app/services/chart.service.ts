@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ChartService {
-  baseUrl: string = '/api';
+  baseUrl: string = 'https://app-dashboard-covid.herokuapp.com/api';
 
 
   constructor(private http: HttpClient) {}
