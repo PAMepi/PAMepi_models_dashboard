@@ -54,10 +54,10 @@ async def model_seir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optiona
 @app.get("/api/seiir")
 async def model_seiir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optional[int] = 0, 
         R0: Optional[int] = 0, alpha: Optional[float] = 1/4 , beta: Optional[float] = 0.5, gamma: Optional[float] = 1/4,
-        t_max: Optional[int] = 1000):
+        gammaa: Optional[float] = 1/4, rho=0.5, t_max: Optional[int] = 1000):
     data = calculate_SEIIR_model(
         N = N, I0 = I0, R0 = R0, E0 = E0, alpha = alpha, beta = beta,
-        gamma = gamma, t_max = t_max
+        gamma = gamma, t_max = t_max, rho=rho, gammaa=gammaa
     )
 
     return data
