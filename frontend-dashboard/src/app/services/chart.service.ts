@@ -48,14 +48,16 @@ export class ChartService {
     transmission: number,
     recovery: number,
     infected: number,
-    incubation: number
+    incubation: number, gammaa:number, rho:number
   ) {
     let url =
     `${this.baseUrl}/seiir?N=${population}` +
     `&beta=${transmission}` +
     `&gamma=${recovery}` +
     `&alpha=${1/incubation}` +
-    `&I0=${infected}`;
+    `&I0=${infected}` +
+    `&gammaa=${gammaa}` +
+    `&rho=${rho}`;
     return this.http.get(url);
   }
 }
