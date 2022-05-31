@@ -34,15 +34,17 @@ export class ChartModelsComponent implements OnInit {
   chartCallback: Highcharts.ChartCallbackFunction = function (chart) {
     setTimeout(() => {
       chart.reflow();
-    }, 100);
+    }, 300);
   };
 
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
-    transmission_rate: 0.5,
-    recovery_rate: 0.2,
+    transmission_rate: 1,
+    recovery_rate: 0.4,
     incubation_rate: 2,
+    gammaa: 0.2,
+    rho: 0.3,
   };
 
   constructor(
@@ -75,7 +77,8 @@ export class ChartModelsComponent implements OnInit {
         this.data.total_population,
         this.data.transmission_rate,
         this.data.recovery_rate,
-        this.data.initial_infected
+        this.data.initial_infected,
+        1 / this.data.incubation_rate
       )
       .subscribe((res: any) => {
         this.chartModel.series = [
@@ -128,6 +131,7 @@ export class ChartModelsComponent implements OnInit {
             name: 'Casos Acumulados',
             data: res.casos[0].data,
             color: '#696758',
+            visible: false,
           },
           {
             type: 'column',
@@ -212,6 +216,107 @@ export class ChartModelsComponent implements OnInit {
             name: 'Casos Acumulados',
             data: res.casos[0].data,
             color: '#696758',
+            visible: false,
+          },
+          {
+            type: 'column',
+            name: 'Casos Diários',
+            data: res.casos[1].data,
+            color: '#0a516d',
+          },
+        ];
+        this.oneToOneFlag = true;
+        this.flagUpdate = true;
+      });
+  }
+
+  chartUpdateSeiir() {
+    this.chartService
+      .updateChartSEIIR(
+        this.data.total_population,
+        this.data.transmission_rate,
+        this.data.recovery_rate,
+        this.data.initial_infected,
+        this.data.incubation_rate,
+        this.data.gammaa,
+        this.data.rho
+      )
+      .subscribe((res: any) => {
+        console.log(res);
+        this.chartModel.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Suscetíveis',
+            data: res.data.filter((d: any) => d.label == 'Suscetíveis')[0].data,
+            lineWidth: 4,
+            color: '#429867',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Infectados',
+            data: res.data.filter((d: any) => d.label == 'Infectados')[0].data,
+            lineWidth: 4,
+            color: '#c41026',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'Recuperados',
+            data: res.data.filter((d: any) => d.label == 'Recuperados')[0].data,
+            lineWidth: 4,
+            color: '#2b5166',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            name: 'Expostos',
+            data: res.data.filter((d: any) => d.label == 'Expostos')[0].data,
+            type: 'line',
+            lineWidth: 4,
+            color: '#fab243',
+          },
+          {
+            marker: {
+              enabled: false,
+            },
+            name: 'Infectados Assintomáticos',
+            data: res.data.filter(
+              (d: any) => d.label == 'Infectados Assintomáticos'
+            )[0].data,
+            type: 'line',
+            lineWidth: 4,
+            color: '#F66B0E',
+          },
+        ];
+        // Infectados Assintomáticos
+        this.chartRt.series = [
+          {
+            marker: {
+              enabled: false,
+            },
+            type: 'line',
+            name: 'RT',
+            data: res.rt[0].data,
+            lineWidth: 4,
+            color: '#0a516d',
+          },
+        ];
+        this.chartCases.series = [
+          {
+            type: 'column',
+            name: 'Casos Acumulados',
+            data: res.casos[0].data,
+            color: '#696758',
+            visible: false,
           },
           {
             type: 'column',
@@ -229,6 +334,9 @@ export class ChartModelsComponent implements OnInit {
     if (event.target.value == 'seir') {
       this.chartUpdateSeir();
       this.chartTitle = 'SEIR';
+    } else if (event.target.value == 'seiir') {
+      this.chartUpdateSeiir();
+      this.chartTitle = 'SEIIR';
     } else {
       this.chartUpdate();
       this.chartTitle = 'SIR';

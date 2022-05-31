@@ -16,9 +16,11 @@
       <h2 class="text-center mt-3">Simulação</h2>
       <div class="sidebar-form">
         <div class="mt-4">
-          <select class="form-select" (change)="changeModel($event)" [(ngModel)]="selectModel" >
-            SIR, SEIR, SEIIR
-            <option selected>Selecione o Modelo</option>
+          <select
+            class="form-select"
+            (change)="changeModel($event)"
+            [(ngModel)]="selectModel"
+          >
             <option value="sir" selected>SIR</option>
             <option value="seir">SEIR</option>
             <option value="seiir">SEIIR</option>
@@ -49,8 +51,9 @@
           </div>
         </div>
         <div class="container-slider mt-3">
+          <h6>Taxa de Recuperação:</h6>
           <div class="input-slider">
-            <label for="">Taxa de Recuperação</label>
+            <label for="">Sintómatico</label>
             <input
               type="range"
               min="0.1"
@@ -63,6 +66,19 @@
               data.recovery_rate.toFixed(2)
             }}</span>
           </div>
+          <div class="input-slider" *ngIf="selectModel == 'seiir'">
+            <label>Assintómaticos</label>
+            <input
+              type="range"
+              min="0.1"
+              max="1"
+              step="any"
+              [(ngModel)]="data.gammaa"
+              class="campo"
+            />
+            <span class="form-text m-0">{{ data.gammaa.toFixed(2) }}</span>
+          </div>
+          <hr />
           <div class="input-slider">
             <label>Taxa de Transmissão</label>
             <input
@@ -77,7 +93,7 @@
               data.transmission_rate.toFixed(2)
             }}</span>
           </div>
-          <div class="input-slider" *ngIf="selectModel == 'seir' ">
+          <div class="input-slider" *ngIf="selectModel != 'sir'">
             <label>Período de Incubação do Vírus</label>
             <input
               type="range"
@@ -91,12 +107,32 @@
               data.incubation_rate.toFixed(2)
             }}</span>
           </div>
+
+          <div class="input-slider" *ngIf="selectModel == 'seiir'">
+            <label>Percentual de Sintomáticos</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="any"
+              [(ngModel)]="data.rho"
+              class="campo"
+            />
+            <span class="form-text m-0">{{ data.rho.toFixed(2) }}</span>
+          </div>
         </div>
-        <div class="box-btn text-center mt-4" *ngIf="selectModel != 'seir' ">
+        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'sir'">
           <button (click)="chartUpdate()" class="btn-chart">Calcular</button>
         </div>
-        <div class="box-btn text-center mt-4"  *ngIf="selectModel == 'seir' ">
-          <button (click)="chartUpdateSeir()" class="btn-chart">Calcular</button>
+        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'seir'">
+          <button (click)="chartUpdateSeir()" class="btn-chart">
+            Calcular
+          </button>
+        </div>
+        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'seiir'">
+          <button (click)="chartUpdateSeiir()" class="btn-chart">
+            Calcular
+          </button>
         </div>
       </div>
     </section>
@@ -109,16 +145,14 @@
       </div>
       <div class="chart-container">
         <section class="chart-main row">
-          <h2>Modelo {{chartTitle}}</h2>
+          <h2>Modelo {{ chartTitle }}</h2>
           <highcharts-chart
-          style="width:100%;display: block;"
+            style="width: 100%; display: block"
             [Highcharts]="Highcharts"
             [options]="chartModel"
             [(update)]="flagUpdate"
             [oneToOne]="oneToOneFlag"
             [callbackFunction]="chartCallback"
-
-
           ></highcharts-chart>
         </section>
       </div>

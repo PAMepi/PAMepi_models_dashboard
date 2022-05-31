@@ -14,12 +14,14 @@ export class ChartService {
     population: number,
     transmission: number,
     recovery: number,
-    infected: number
+    infected: number,
+    incubation: number
   ) {
     let url =
-      `${this.baseUrl}/sir?N=${population}` +
+      `${this.baseUrl}/seir?N=${population}` +
       `&beta=${transmission}` +
       `&gamma=${recovery}` +
+      `&alpha=${incubation}` +
       `&I0=${infected}`;
     return this.http.get(url);
   }
@@ -38,6 +40,24 @@ export class ChartService {
     `&gamma=${recovery}` +
     `&alpha=${1/incubation}` +
     `&I0=${infected}`;
+    return this.http.get(url);
+  }
+
+  updateChartSEIIR(
+    population: number,
+    transmission: number,
+    recovery: number,
+    infected: number,
+    incubation: number, gammaa:number, rho:number
+  ) {
+    let url =
+    `${this.baseUrl}/seiir?N=${population}` +
+    `&beta=${transmission}` +
+    `&gamma=${recovery}` +
+    `&alpha=${1/incubation}` +
+    `&I0=${infected}` +
+    `&gammaa=${gammaa}` +
+    `&rho=${rho}`;
     return this.http.get(url);
   }
 }

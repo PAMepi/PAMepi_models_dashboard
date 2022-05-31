@@ -4,4 +4,6 @@ export interface SIR {
   transmission_rate: number;
   recovery_rate: number;
   incubation_rate: number;
+  gammaa: number;
+  rho: number
 }
