@@ -1,0 +1,236 @@
+mat-toolbar {
+  background: transparent;
+  color: #ffffff;
+  height: 3%;
+}
+.btn-mobile {
+  border: none;
+  background-color: transparent;
+}
+.content h2 {
+  text-align: center;
+  color: #892e2c;
+  font-size: 30px;
+}
+
+mat-sidenav {
+  margin: 25px;
+  width: 245px;
+  border-right: none;
+  background: #892e2c;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.sidebar-form {
+  margin: 0 auto;
+  width: 88%;
+}
+.sidebar-form .form-select {
+  height: 36px;
+}
+.sidebar-form .form-control {
+  height: 80%;
+}
+.projection-container h2 {
+  font-size: 28px;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 50%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: #dddddd;
+  border: 0px solid #000101;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  height: 15px;
+  width: 15px;
+  border-radius: 100%;
+  background: #dddddd;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7px;
+  border: 0px solid #000101;
+}
+.btn-chart {
+  width: 180px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 18px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: 300ms;
+
+}
+.btn-chart:hover {
+  font-size: 20px;
+}
+.input-slider {
+  display: flex;
+  flex-direction: column;
+}
+.form-text {
+  color: #ffffff;
+}
+
+.content {
+  /* height: calc(100vh - 60px); */
+  border-radius: 10px;
+  margin: 16px;
+  margin-left: 32px;
+  padding: 16px;
+  overflow: auto;
+}
+.content::-webkit-scrollbar {
+  width: 10px;
+}
+.content::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 6px solid rgba(0, 0, 0, 0.18);
+  border-left: 0;
+  border-right: 0;
+  background-color: #892e2c;
+}
+.content::-webkit-scrollbar-track {
+  border-radius: 100px;
+  background-color: darkgrey;
+}
+
+/* mat-sidenav-container {
+  height: calc(100vh - 25px);
+} */
+
+/* charts */
+.chart-container {
+  margin: 0 auto;
+  width: 95%;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.chart-main {
+  margin: 0 auto;
+  width: 85%;
+  padding: 20px;
+}
+
+.charts-secondary {
+  margin: 0 auto;
+  width: 95%;
+  display: flex;
+  justify-content: space-around;
+  gap: 25px;
+  margin-top: 38px;
+}
+.chart-rt,
+.chart-tc {
+  width: 49%;
+  background-color: #eeeeee;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  padding: 25px;
+}
+input:focus,
+select:focus {
+  box-shadow: none;
+}
+/*
+.h{
+  background-color: aqua;
+  width: 200px;
+} */
+
+@media (min-height: 700px) {
+  .projection-container h2 {
+    font-size: 35px;
+    padding: 10px;
+  }
+  mat-sidenav {
+    width: 290px;
+  }
+  .mt-height {
+    margin-top: 28px;
+  }
+}
+@media (max-height: 698px) {
+  .projection-container h2 {
+    font-size: 25px;
+  }
+  .sidebar-form .form-label {
+    font-size: 12px;
+  }
+  .sidebar-form .form-select {
+    height: 28px;
+    font-size: 12px;
+  }
+  .sidebar-form .form-control {
+    height: 28px;
+    font-size: 12px;
+  }
+  .sidebar-form .input-slider label {
+    font-size: 12px;
+  }
+  .sidebar-form .form-text {
+    font-size: 10px;
+  }
+  .sidebar-form .btn-chart {
+    padding: 6px;
+    font-size: 14px;
+  }
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
+}
+@media (max-height: 560px) {
+  .projection-container h2 {
+    font-size: 20px;
+  }
+  .sidebar-form .form-label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-select {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .form-control {
+    height: 25px;
+    font-size: 10px;
+  }
+  .sidebar-form .input-slider label {
+    font-size: 10px;
+  }
+  .sidebar-form .form-text {
+    font-size: 8px;
+  }
+  .sidebar-form .btn-chart {
+    padding: 6px;
+    font-size: 11px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    height: 12px;
+    width: 12px;
+    margin-top: -5px;
+  }
+  .content h2 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  .chart-main {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+h2{
+font-weight: bold;
+}

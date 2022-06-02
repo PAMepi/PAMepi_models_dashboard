@@ -16,9 +16,10 @@ import { LoaderInterceptorService } from './interceptors/loader-interceptor.serv
 import { ChartModelsComponent } from './components/chart-models/chart-models.component';
 import { ChartMapsComponent } from './components/chart-maps/chart-maps.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { ModelComparisonComponent } from './components/model-comparison/model-comparison.component';
 
 @NgModule({
-  declarations: [AppComponent, LoaderComponent, ChartModelsComponent, ChartMapsComponent],
+  declarations: [AppComponent, LoaderComponent, ChartModelsComponent, ChartMapsComponent, ModelComparisonComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
