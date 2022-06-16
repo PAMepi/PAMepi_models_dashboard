@@ -2,7 +2,9 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import Highcharts from 'highcharts';
-import { delay } from 'rxjs/operators';
+
+import { of, switchMap } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 import { chartModelOptions } from 'src/app/helpers/chart-model';
 import { highchartsOptions } from 'src/app/helpers/translate';
 import { SIR } from 'src/app/models/SIR';
@@ -26,7 +28,7 @@ export class ModelComparisonComponent implements OnInit {
       chart.reflow();
     }, 300)
   }
-  labelSelect:string = "Infectados"
+  labelSelect: string = "Infectados"
 
   data: SIR = {
     total_population: 5000,
@@ -38,7 +40,7 @@ export class ModelComparisonComponent implements OnInit {
     rho: 0.3,
   };
 
-  constructor(    private observer: BreakpointObserver,
+  constructor(private observer: BreakpointObserver,
     private chartService: ChartService) { }
 
   ngOnInit(): void {
@@ -61,70 +63,112 @@ export class ModelComparisonComponent implements OnInit {
   }
 
   chartUpdate() {
-    this.chartService
-       .updateChartSEIIR(
-        this.data.total_population,
-        this.data.transmission_rate,
-        this.data.recovery_rate,
-        this.data.initial_infected,
-        this.data.incubation_rate,
-        this.data.gammaa,
-        this.data.rho
-      )
-      .subscribe((seiir: any) => {
-        this.chartService.updateChartSEIR(this.data.total_population,
+    this.chartService.updateChartSEIIR(
+      this.data.total_population,
+      this.data.transmission_rate,
+      this.data.recovery_rate,
+      this.data.initial_infected,
+      this.data.incubation_rate,
+      this.data.gammaa,
+      this.data.rho
+    ).pipe(
+      map(x => { return { "seiir": flattenObject(x), "seir": [], "sir": [] } }),
+      switchMap(result => {
+        return this.chartService.updateChartSEIR(
+          this.data.total_population,
           this.data.transmission_rate,
           this.data.recovery_rate,
           this.data.initial_infected,
-          this.data.incubation_rate).subscribe((seir:any) =>{
-            this.chartService.updateChartSIR(this.data.total_population,
-              this.data.transmission_rate,
-              this.data.recovery_rate,
-              this.data.initial_infected,this.data.incubation_rate).subscribe((sir:any) =>{
-                console.log(sir.data.filter((d: any) => d.label == this.labelSelect))
-                this.chartModel.series = [
-                  {
-                    marker: {
-                      enabled: false,
-                    },
-                    type: 'line',
-                    name: 'SEIIR',
-                    data: seiir.data.filter((d: any) => d.label == this.labelSelect)[0].data,
-                    lineWidth: 4,
-                    color: 'red',
-                  },
-                  {
-                    marker: {
-                      enabled: false,
-                    },
-                    type: 'line',
-                    name: 'SEIR',
-                    data: seir.data.filter((d: any) => d.label == this.labelSelect)[0].data,
-                    lineWidth: 4,
-                    color: 'pink',
-                  },
-                  {
-                    marker: {
-                      enabled: false,
-                    },
-                    type: 'line',
-                    name: 'SIR',
-                    data: sir.data.filter((d: any) => d.label == this.labelSelect)[0].data,
-                    lineWidth: 4,
-                    color: 'blue',
-                  },
-                ];
-                this.oneToOneFlag = true;
-                this.flagUpdate = true;
+          this.data.incubation_rate
+        ).pipe(map(x => {
+          result["seir"] = flattenObject(x)
+          return result
+        }))
+      }),
+      switchMap(result => {
+        return this.chartService.updateChartSIR(
+          this.data.total_population,
+          this.data.transmission_rate,
+          this.data.recovery_rate,
+          this.data.initial_infected,
+          this.data.incubation_rate
+        ).pipe(map(x => {
+          result["sir"] = flattenObject(x)
+          return result
+        }))
+      })
+    ).subscribe((data:any) => {
+      console.log(data)
+      this.chartModel.series = [
+        {
+          marker: {
+            enabled: false,
+          },
+          type: 'line',
+          name: 'SEIIR',
+          data: extractData(data["seiir"], this.labelSelect),
+          lineWidth: 4,
+          color: 'red',
+        },
+        {
+          marker: {
+            enabled: false,
+          },
+          type: 'line',
+          name: 'SEIR',
+          data: extractData(data["seir"], this.labelSelect),
+          lineWidth: 4,
+          color: 'pink',
+        },
+        {
+          marker: {
+            enabled: false,
+          },
+          type: 'line',
+          name: 'SIR',
+          data: extractData(data["sir"], this.labelSelect),
+          lineWidth: 4,
+          color: 'blue',
+        },
+      ]
 
-              })
-          })
-
-      });
+      this.oneToOneFlag = true;
+      this.flagUpdate = true;
+    })
   }
 
-  changeLabel(event: any){
+  changeLabel(event: any) {
     this.chartUpdate()
   }
 
+}
+
+function extractData(ob:any, selectedLabel: string){
+  let data = ob.filter((d: any) => d.label == selectedLabel)
+
+  if(data.length){
+    data = data[0].data
+  }
+  
+  return data
+}
+
+function flattenObject(ob: any) {
+  var toReturn: any = [];
+
+  for (var i in ob) {
+    if (!ob.hasOwnProperty(i)) continue;
+
+    if ((typeof ob[i]) == 'object' && ob[i] !== null) {
+      var flatObject = ob[i];
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+
+        toReturn.push(flatObject[x]);
+      }
+    } else {
+      toReturn.push(ob[i]);
+    }
+  }
+  return toReturn;
 }
