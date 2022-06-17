@@ -1,0 +1,157 @@
+<mat-toolbar class="mat-elevation-z8">
+  <button
+    mat-icon-button
+    *ngIf="sidenav.mode === 'over'"
+    (click)="sidenav.toggle()"
+    class="mt-3 btn-mobile"
+  >
+    <mat-icon *ngIf="!sidenav.opened"> menu </mat-icon>
+    <mat-icon *ngIf="sidenav.opened"> close </mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav="matSidenav">
+    <section class="projection-container">
+      <h2 class="text-center mt-3">Comparação</h2>
+      <div class="sidebar-form">
+        <div class="mt-4">
+          <select
+            class="form-select" [(ngModel)]="labelSelect" (change)="changeLabel($event)"
+          >
+            <option value="Suscetíveis" selected>Suscetíveis</option>
+            <option value="Infectados">Infectados</option>
+            <option value="Recuperados">Recuperados</option>
+            <option value="Expostos">Expostos</option>
+            <option value="Infectados Assintomáticos">Infectados Assintomáticos</option>
+            <option value="Rt">Rt</option>
+            <option value="Casos Acumulados">Casos Acumulados</option>
+            <option value="Casos Diários">Casos Diários</option>
+          </select>
+        </div>
+        <div class="inputs-container mt-2 mt-height">
+          <div class="mb-2 mt-height">
+            <label for="total_population" class="form-label"
+              >População Total</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="total_population"
+              [(ngModel)]="data.total_population"
+            />
+          </div>
+          <div class="mb-2 mt-height">
+            <label for="initial_infected" class="form-label">
+              Inicial de Infectados</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="initial_infected"
+              [(ngModel)]="data.initial_infected"
+            />
+          </div>
+        </div>
+        <div class="container-slider mt-3">
+          <h6>Taxa de Recuperação:</h6>
+          <div class="input-slider">
+            <label for="">Sintómatico</label>
+            <input
+              type="range"
+              min="0.1"
+              max="1.00"
+              step="any"
+              [(ngModel)]="data.recovery_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.recovery_rate.toFixed(2)
+            }}</span>
+          </div>
+          <div class="input-slider" >
+            <label>Assintómaticos</label>
+            <input
+              type="range"
+              min="0.1"
+              max="1"
+              step="any"
+              [(ngModel)]="data.gammaa"
+              class="campo"
+            />
+            <span class="form-text m-0">{{ data.gammaa.toFixed(2) }}</span>
+          </div>
+          <hr />
+          <div class="input-slider">
+            <label>Taxa de Transmissão</label>
+            <input
+              type="range"
+              min="0.1"
+              max="2.00"
+              step="any"
+              [(ngModel)]="data.transmission_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.transmission_rate.toFixed(2)
+            }}</span>
+          </div>
+          <div class="input-slider">
+            <label>Período de Incubação do Vírus</label>
+            <input
+              type="range"
+              min="2"
+              max="10"
+              step="any"
+              [(ngModel)]="data.incubation_rate"
+              class="campo"
+            />
+            <span class="form-text m-0">{{
+              data.incubation_rate.toFixed(2)
+            }}</span>
+          </div>
+
+          <div class="input-slider">
+            <label>Percentual de Sintomáticos</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="any"
+              [(ngModel)]="data.rho"
+              class="campo"
+            />
+            <span class="form-text m-0">{{ data.rho.toFixed(2) }}</span>
+          </div>
+        </div>
+        <div class="box-btn text-center mt-4" >
+          <button (click)="chartUpdate()"  class="btn-chart">Calcular</button>
+        </div>
+
+
+      </div>
+    </section>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main class="content" #main>
+      <div class="container-loader">
+        <app-loader></app-loader>
+      </div>
+      <div class="chart-container">
+        <section class="chart-main row">
+          <h2>{{labelSelect}}</h2>
+          <highcharts-chart
+            style="width: 100%;height: 750px;  display: block"
+            [Highcharts]="Highcharts"
+            [options]="chartModel"
+            [(update)]="flagUpdate"
+            [oneToOne]="oneToOneFlag"
+            [callbackFunction]="chartCallback"
+          ></highcharts-chart>
+        </section>
+      </div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

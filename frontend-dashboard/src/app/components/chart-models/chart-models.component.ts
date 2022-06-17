@@ -155,7 +155,6 @@ export class ChartModelsComponent implements OnInit {
         this.data.incubation_rate
       )
       .subscribe((res: any) => {
-        console.log(res.data.filter((d: any) => d.label == 'Suscetíveis'));
         this.chartModel.series = [
           {
             marker: {
@@ -242,7 +241,6 @@ export class ChartModelsComponent implements OnInit {
         this.data.rho
       )
       .subscribe((res: any) => {
-        console.log(res);
         this.chartModel.series = [
           {
             marker: {
