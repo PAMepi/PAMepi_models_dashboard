@@ -108,7 +108,7 @@ export class ModelComparisonComponent implements OnInit {
           name: 'SEIIR',
           data: extractData(data["seiir"], this.labelSelect),
           lineWidth: 4,
-          color: 'red',
+          color: '#429867',
         },
         {
           marker: {
@@ -118,7 +118,7 @@ export class ModelComparisonComponent implements OnInit {
           name: 'SEIR',
           data: extractData(data["seir"], this.labelSelect),
           lineWidth: 4,
-          color: 'pink',
+          color: '#c41026',
         },
         {
           marker: {
@@ -128,7 +128,7 @@ export class ModelComparisonComponent implements OnInit {
           name: 'SIR',
           data: extractData(data["sir"], this.labelSelect),
           lineWidth: 4,
-          color: 'blue',
+          color: '#2b5166',
         },
       ]
 
@@ -149,7 +149,7 @@ function extractData(ob:any, selectedLabel: string){
   if(data.length){
     data = data[0].data
   }
-  
+
   return data
 }
 
