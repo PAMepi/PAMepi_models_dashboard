@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +40,7 @@ import { ModelComparisonComponent } from './components/model-comparison/model-co
       useClass: LoaderInterceptorService,
       multi: true,
     },
+    {provide: LocationStrategy, useClass: PathLocationStrategy}
   ],
   bootstrap: [AppComponent],
 })
