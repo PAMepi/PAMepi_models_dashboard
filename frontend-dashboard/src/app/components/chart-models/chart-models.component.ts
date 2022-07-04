@@ -46,6 +46,7 @@ export class ChartModelsComponent implements OnInit {
     incubation_rate: 2,
     gammaa: 0.2,
     rho: 0.3,
+    mortality: 0.5
   };
 
   constructor(
@@ -79,7 +80,7 @@ export class ChartModelsComponent implements OnInit {
           marker: {
             enabled: false,
           },
-          type: 'line',
+          type: 'area',
           name: 'Suscetíveis',
           data: res.data.filter((d: any) => d.label == 'Suscetíveis')[0].data,
           lineWidth: 1,
@@ -90,7 +91,7 @@ export class ChartModelsComponent implements OnInit {
           marker: {
             enabled: false,
           },
-          type: 'line',
+          type: 'area',
           name: 'Recuperados',
           data: res.data.filter((d: any) => d.label == 'Recuperados')[0].data,
           lineWidth: 1,
@@ -101,13 +102,29 @@ export class ChartModelsComponent implements OnInit {
           marker: {
             enabled: false,
           },
-          type: 'line',
+          type: 'area',
           name: 'Infectados',
           data: res.data.filter((d: any) => d.label == 'Infectados')[0].data,
           lineWidth: 4,
           color: '#c41026',
         }
       ];
+
+      // For mortality
+      if(this.data.mortality > 0){
+        this.chartModel.series.push(
+          {
+            marker: {
+              enabled: false,
+            },
+            name: 'Mortes',
+            data: res.data.filter((d: any) => d.label == 'Mortes Acumuladas')[0].data,
+            type: 'area',
+            lineWidth: 4,
+            color: '#f23411',
+          }
+        )
+      }
 
       // For SEIR and SEIIR
       if(this.selectModel != 'sir'){
@@ -118,7 +135,7 @@ export class ChartModelsComponent implements OnInit {
             },
             name: 'Expostos',
             data: res.data.filter((d: any) => d.label == 'Expostos')[0].data,
-            type: 'line',
+            type: 'area',
             lineWidth: 4,
             color: '#fab243',
           }
@@ -136,7 +153,7 @@ export class ChartModelsComponent implements OnInit {
             data: res.data.filter(
               (d: any) => d.label == 'Infectados Assintomáticos'
             )[0].data,
-            type: 'line',
+            type: 'area',
             lineWidth: 4,
             color: '#F66B0E'
           }
@@ -182,7 +199,8 @@ export class ChartModelsComponent implements OnInit {
         this.data.total_population,
         this.data.transmission_rate,
         this.data.recovery_rate,
-        this.data.initial_infected)
+        this.data.initial_infected,
+        this.data.mortality)
     } else if (this.selectModel == 'seir') {
       this.chartTitle = 'SEIR';
       return this.chartService.updateChartSEIR(
@@ -190,7 +208,8 @@ export class ChartModelsComponent implements OnInit {
         this.data.transmission_rate,
         this.data.recovery_rate,
         this.data.initial_infected,
-        this.data.incubation_rate
+        this.data.incubation_rate,
+        this.data.mortality
       )
     } else {
       this.chartTitle = 'SEIIR';
@@ -201,7 +220,8 @@ export class ChartModelsComponent implements OnInit {
         this.data.initial_infected,
         this.data.incubation_rate,
         this.data.gammaa,
-        this.data.rho
+        this.data.rho,
+        this.data.mortality
       )
     }
     

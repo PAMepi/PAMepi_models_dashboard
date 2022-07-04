@@ -5,5 +5,6 @@ export interface SIR {
   recovery_rate: number;
   incubation_rate: number;
   gammaa: number;
-  rho: number
+  rho: number;
+  mortality: number;
 }

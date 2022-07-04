@@ -246,30 +246,34 @@ states_names = ['Suscetíveis', 'Expostos', 'Infectados Assintomáticos', \
         return np.r_[dS, dE, dIa, dIs, dR, dD, dNw]
 
 
-def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, tmax = 365, mu = None):
+def calculate_SIR_model(N = 1000, I0 = 1, R0 = 0, beta = 0.02, gamma = 1/10, tmax = 365, mu = 0):
+    print(type(mu))
     if (mu is None) or (mu == 0):
         output = SIR().calculate_model(locals())
     else:
+        D0 = 0
         output = SIRD().calculate_model(locals())
 
     return output
 
 
-def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, kappa = 1/5, beta = 0.02, gamma = 1/2, tmax = 365, mu=None):
+def calculate_SEIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, kappa = 1/5, beta = 0.02, gamma = 1/2, tmax = 365, mu=0):
     if (mu is None) or (mu == 0):
         output = SEIR().calculate_model(locals())
     else:
+        D0 = 0
         output = SEIRD().calculate_model(locals())
 
     return output
 
-def calculate_SEIIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, kappa = 1/5, beta = 0.02, gamma = 1/10, gammaA= 1/2, delta=1, tmax = 365, p = 0.6, mu=None):
+def calculate_SEIIR_model(N = 1000, I0 = 1, R0 = 0, E0=10, kappa = 1/5, beta = 0.02, gamma = 1/10, gammaA= 1/2, delta=1, tmax = 365, p = 0.6, mu=0):
     Ia0 = 0
     Is0 = I0
 
     if (mu is None) or (mu == 0):
         output = SEIIR().calculate_model(locals())
     else:
+        D0 = 0
         output = SEIIRD().calculate_model(locals())
 
     return output

@@ -108,6 +108,19 @@
             }}</span>
           </div>
 
+          <div class="input-slider">
+            <label>Taxa de Mortalidade</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="any"
+              [(ngModel)]="data.mortality"
+              class="campo"
+            />
+            <span class="form-text m-0">{{ data.mortality.toFixed(2) }}</span>
+          </div>
+
           <div class="input-slider" *ngIf="selectModel == 'seiir'">
             <label>Percentual de Sintomáticos</label>
             <input

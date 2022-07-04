@@ -38,6 +38,7 @@ export class ModelComparisonComponent implements OnInit {
     incubation_rate: 2,
     gammaa: 0.2,
     rho: 0.3,
+    mortality: 0
   };
 
   constructor(private observer: BreakpointObserver,
