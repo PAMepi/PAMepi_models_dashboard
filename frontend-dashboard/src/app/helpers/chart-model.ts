@@ -3,7 +3,7 @@ export const chartModelOptions: Highcharts.Options = {
     text: undefined,
   },
   chart: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#eeeeee'
   },
   credits: {
     enabled: false

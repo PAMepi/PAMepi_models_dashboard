@@ -18,7 +18,7 @@
         <div class="mt-4">
           <select
             class="form-select"
-            (change)="changeModel($event)"
+            (change)="update()"
             [(ngModel)]="selectModel"
           >
             <option value="sir" selected>SIR</option>
@@ -121,18 +121,8 @@
             <span class="form-text m-0">{{ data.rho.toFixed(2) }}</span>
           </div>
         </div>
-        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'sir'">
-          <button (click)="chartUpdate()" class="btn-chart">Calcular</button>
-        </div>
-        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'seir'">
-          <button (click)="chartUpdateSeir()" class="btn-chart">
-            Calcular
-          </button>
-        </div>
-        <div class="box-btn text-center mt-4" *ngIf="selectModel == 'seiir'">
-          <button (click)="chartUpdateSeiir()" class="btn-chart">
-            Calcular
-          </button>
+        <div class="box-btn text-center mt-4">
+          <button (click)="update()" class="btn-chart">Calcular</button>
         </div>
       </div>
     </section>

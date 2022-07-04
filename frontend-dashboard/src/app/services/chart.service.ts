@@ -14,14 +14,12 @@ export class ChartService {
     population: number,
     transmission: number,
     recovery: number,
-    infected: number,
-    incubation: number
+    infected: number
   ) {
     let url =
-      `${this.baseUrl}/seir?N=${population}` +
+      `${this.baseUrl}/sir?N=${population}` +
       `&beta=${transmission}` +
       `&gamma=${recovery}` +
-      `&alpha=${incubation}` +
       `&I0=${infected}`;
     return this.http.get(url);
   }
