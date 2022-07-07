@@ -38,6 +38,7 @@ export class ModelComparisonComponent implements OnInit {
     incubation_rate: 2,
     gammaa: 0.2,
     rho: 0.3,
+    mortality: 0
   };
 
   constructor(private observer: BreakpointObserver,
@@ -90,15 +91,13 @@ export class ModelComparisonComponent implements OnInit {
           this.data.total_population,
           this.data.transmission_rate,
           this.data.recovery_rate,
-          this.data.initial_infected,
-          this.data.incubation_rate
+          this.data.initial_infected
         ).pipe(map(x => {
           result["sir"] = flattenObject(x)
           return result
         }))
       })
     ).subscribe((data:any) => {
-      console.log(data)
       this.chartModel.series = [
         {
           marker: {

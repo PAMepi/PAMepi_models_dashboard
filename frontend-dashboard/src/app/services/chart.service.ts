@@ -14,15 +14,15 @@ export class ChartService {
     population: number,
     transmission: number,
     recovery: number,
-    infected: number,
-    incubation: number
+    infected: number, 
+    mu: number = 0
   ) {
     let url =
-      `${this.baseUrl}/seir?N=${population}` +
+      `${this.baseUrl}/sir?N=${population}` +
       `&beta=${transmission}` +
       `&gamma=${recovery}` +
-      `&alpha=${incubation}` +
-      `&I0=${infected}`;
+      `&I0=${infected}` +
+      `&mu=${mu}`;
     return this.http.get(url);
   }
 
@@ -32,14 +32,16 @@ export class ChartService {
     transmission: number,
     recovery: number,
     infected: number,
-    incubation: number
+    incubation: number,
+    mu: number = 0
   ) {
     let url =
     `${this.baseUrl}/seir?N=${population}` +
     `&beta=${transmission}` +
     `&gamma=${recovery}` +
     `&alpha=${1/incubation}` +
-    `&I0=${infected}`;
+    `&I0=${infected}` +
+    `&mu=${mu}`;
     return this.http.get(url);
   }
 
@@ -48,7 +50,8 @@ export class ChartService {
     transmission: number,
     recovery: number,
     infected: number,
-    incubation: number, gammaa:number, rho:number
+    incubation: number, gammaa:number, rho:number,
+    mu:number = 0
   ) {
     let url =
     `${this.baseUrl}/seiir?N=${population}` +
@@ -57,7 +60,8 @@ export class ChartService {
     `&alpha=${1/incubation}` +
     `&I0=${infected}` +
     `&gammaa=${gammaa}` +
-    `&rho=${rho}`;
+    `&rho=${rho}` +
+    `&mu=${mu}`;
     return this.http.get(url);
   }
 }

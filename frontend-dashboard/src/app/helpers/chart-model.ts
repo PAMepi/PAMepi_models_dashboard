@@ -4,6 +4,7 @@ export const chartModelOptions: Highcharts.Options = {
   },
   chart: {
     backgroundColor: '#eeeeee',
+    type:"area"
   },
   credits: {
     enabled: false
@@ -23,6 +24,15 @@ export const chartModelOptions: Highcharts.Options = {
     },
   },
   plotOptions: {
+    area: {
+      stacking: 'normal',
+      lineColor: '#666666',
+      lineWidth: 1,
+      marker: {
+          lineWidth: 1,
+          lineColor: '#666666'
+      }
+    },
     series: {
       pointStart: Number(new Date()),
       pointInterval: 24 * 3600 * 1000,

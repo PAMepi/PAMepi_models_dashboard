@@ -32,10 +32,10 @@ async def root():
 @app.get("/api/sir")
 async def model_sir(N: Optional[int] = 1000, I0: Optional[int] = 1, 
         R0: Optional[int] = 0, beta: Optional[float] = 0.2, gamma: Optional[float] = 1/10,
-        t_max: Optional[int] = 1000):
+        t_max: Optional[int] = 100, mu: Optional[float] = 0):
     data = calculate_SIR_model(
         N = N, I0 = I0, R0 = R0, beta = beta,
-        gamma = gamma, t_max = t_max
+        gamma = gamma, tmax = t_max, mu = mu
     )
 
     return data
@@ -43,10 +43,10 @@ async def model_sir(N: Optional[int] = 1000, I0: Optional[int] = 1,
 @app.get("/api/seir")
 async def model_seir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optional[int] = 0, 
         R0: Optional[int] = 0, alpha: Optional[float] = 1/2 , beta: Optional[float] = 0.2, gamma: Optional[float] = 1/2,
-        t_max: Optional[int] = 1000):
+        t_max: Optional[int] = 100, mu: Optional[float] = 0):
     data = calculate_SEIR_model(
-        N = N, I0 = I0, R0 = R0, E0 = E0, alpha = alpha, beta = beta,
-        gamma = gamma, t_max = t_max
+        N = N, I0 = I0, R0 = R0, E0 = E0, kappa = alpha, beta = beta,
+        gamma = gamma, tmax = t_max, mu = mu
     )
 
     return data
@@ -54,10 +54,10 @@ async def model_seir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optiona
 @app.get("/api/seiir")
 async def model_seiir(N: Optional[int] = 1000, I0: Optional[int] = 1, E0: Optional[int] = 0, 
         R0: Optional[int] = 0, alpha: Optional[float] = 1/4 , beta: Optional[float] = 0.5, gamma: Optional[float] = 1/4,
-        gammaa: Optional[float] = 1/4, rho: Optional[float]=0.5, t_max: Optional[int] = 1000):
+        gammaa: Optional[float] = 1/4, rho: Optional[float]=0.5, t_max: Optional[int] = 100, mu: Optional[float] = 0):
     data = calculate_SEIIR_model(
-        N = N, I0 = I0, R0 = R0, E0 = E0, alpha = alpha, beta = beta,
-        gamma = gamma, t_max = t_max, rho=rho, gammaA=gammaa
+        N = N, I0 = I0, R0 = R0, E0 = E0, kappa = alpha, beta = beta,
+        gamma = gamma, tmax = t_max, p=rho, gammaA=gammaa, mu = mu
     )
 
     return data
