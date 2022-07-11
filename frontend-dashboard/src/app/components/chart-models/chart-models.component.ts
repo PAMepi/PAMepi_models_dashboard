@@ -85,7 +85,9 @@ export class ChartModelsComponent implements OnInit {
           data: res.data.filter((d: any) => d.label == 'Suscetíveis')[0].data,
           lineWidth: 1,
           color: '#2b5166',
-          dashStyle: 'LongDash' 
+          dashStyle: 'LongDash',
+          visible: false,
+          opacity:0.8
         },
         {
           marker: {
@@ -94,9 +96,9 @@ export class ChartModelsComponent implements OnInit {
           type: 'area',
           name: 'Recuperados',
           data: res.data.filter((d: any) => d.label == 'Recuperados')[0].data,
-          lineWidth: 1,
-          color: '#429867',
-          dashStyle: 'LongDash' 
+          color: '#116530',
+          dashStyle: 'LongDash',
+          opacity:0.8
         },
         {
           marker: {
@@ -105,8 +107,8 @@ export class ChartModelsComponent implements OnInit {
           type: 'area',
           name: 'Infectados',
           data: res.data.filter((d: any) => d.label == 'Infectados')[0].data,
-          lineWidth: 4,
-          color: '#c41026',
+          color: '#FC5404',
+          opacity:0.8
         }
       ];
 
@@ -120,8 +122,8 @@ export class ChartModelsComponent implements OnInit {
             name: 'Mortes',
             data: res.data.filter((d: any) => d.label == 'Mortes Acumuladas')[0].data,
             type: 'area',
-            lineWidth: 4,
-            color: '#f23411',
+            color: '#CD1818',
+            opacity:0.8
           }
         )
       }
@@ -136,8 +138,8 @@ export class ChartModelsComponent implements OnInit {
             name: 'Expostos',
             data: res.data.filter((d: any) => d.label == 'Expostos')[0].data,
             type: 'area',
-            lineWidth: 4,
-            color: '#fab243',
+            color: '#F98404',
+            opacity:0.8
           }
         )
       }
@@ -154,8 +156,8 @@ export class ChartModelsComponent implements OnInit {
               (d: any) => d.label == 'Infectados Assintomáticos'
             )[0].data,
             type: 'area',
-            lineWidth: 4,
-            color: '#F66B0E'
+            color: '#FAC213',
+            opacity:0.8
           }
         )
       }
@@ -170,6 +172,7 @@ export class ChartModelsComponent implements OnInit {
           data: res.rt[0].data,
           lineWidth: 4,
           color: '#0a516d',
+
         },
       ];
       this.chartCases.series = [
@@ -224,7 +227,7 @@ export class ChartModelsComponent implements OnInit {
         this.data.mortality
       )
     }
-    
-    
+
+
   }
 }
