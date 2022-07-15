@@ -18,6 +18,7 @@ import { ChartModelsComponent } from './components/chart-models/chart-models.com
 import { ChartMapsComponent } from './components/chart-maps/chart-maps.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ModelComparisonComponent } from './components/model-comparison/model-comparison.component';
+import { NgxCsvParserModule } from 'ngx-csv-parser';
 
 @NgModule({
   declarations: [AppComponent, LoaderComponent, ChartModelsComponent, ChartMapsComponent, ModelComparisonComponent],
@@ -30,7 +31,8 @@ import { ModelComparisonComponent } from './components/model-comparison/model-co
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
-    HighchartsChartModule 
+    HighchartsChartModule,
+    NgxCsvParserModule
 
   ],
   providers: [
