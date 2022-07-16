@@ -1,6 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 import Highcharts from 'highcharts';
 
 import { of, switchMap } from 'rxjs';
@@ -32,6 +34,10 @@ export class ModelComparisonComponent implements OnInit {
   };
   labelSelect: string = 'Infectados';
 
+  selectedColumn: string = '';
+  columns: string[] = [];
+  realData: any;
+
   data: SIR = {
     total_population: 5000,
     initial_infected: 1,
@@ -49,12 +55,18 @@ export class ModelComparisonComponent implements OnInit {
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService,
-    private ngxCsvParser: NgxCsvParser
+    private ngxCsvParser: NgxCsvParser,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.chartUpdate();
   }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message);
+  }
+
   openPopup() {
     this.displayStyle = 'block';
   }
@@ -134,7 +146,7 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIIR',
             data: extractData(data['seiir'], this.labelSelect),
-            lineWidth: 4,
+            lineWidth: 3,
             color: '#429867',
           },
           {
@@ -144,7 +156,7 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIR',
             data: extractData(data['seir'], this.labelSelect),
-            lineWidth: 4,
+            lineWidth: 3,
             color: '#c41026',
           },
           {
@@ -154,19 +166,20 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SIR',
             data: extractData(data['sir'], this.labelSelect),
-            lineWidth: 4,
+            lineWidth: 3,
             color: '#2b5166',
           },
           {
             marker: {
               enabled: false,
             },
-            type: 'line',
+            type: 'area',
             name: 'Real',
             data: this.realSerie,
             lineWidth: 4,
             color: 'blue',
             visible: this.uploadFile,
+            opacity: 0.4
           },
         ];
 
@@ -187,13 +200,14 @@ export class ModelComparisonComponent implements OnInit {
     }
   }
 
-  realSerie: any[] = [];
+  realSerie: number[] = [];
   header: boolean = true;
 
   @ViewChild('fileImportInput') fileImportInput: any;
 
   fileChangeListener($event: any): void {
     const files = $event.srcElement.files;
+
     this.header =
       (this.header as unknown as string) === 'true' || this.header === true;
 
@@ -202,18 +216,37 @@ export class ModelComparisonComponent implements OnInit {
       .pipe()
       .subscribe(
         (result: any) => {
-          this.realSerie = result.map((d: any) => {
-            return Number.parseFloat(d[Object.keys(d)[0]]);
-          });
-          this.data.total_population = Math.max(...this.realSerie) * 1.5 + 100;
-          this.chartUpdate();
+          this.columns = Object.keys(result[0])
+          this.selectedColumn = this.columns[0]
+          this.realData = result
+          this.updateRealData()
         },
         (error: NgxCSVParserError) => {
           console.log('Error', error);
         }
       );
   }
+  updateRealData(){
+    let message: string = "Use os gráficos 'Casos Diários' e 'Casos Acumulados' para uma melhor visualização dos dados reais.";
+
+    this.realSerie = this.realData.map((d: any) => {
+      return Number.parseFloat(d[this.selectedColumn]);
+    });
+
+    console.log(this.realSerie)
+
+    if(this.realSerie.map(d => isNaN(d)).every(Boolean)){
+      this.openSnackBar("Coluna não numérica");
+      throw new NgxCSVParserError()
+    } else {
+      this.data.total_population = Math.round(Math.max(...this.realSerie) * 1.5 + 100);
+      this.chartUpdate();
+      this.openSnackBar(message);
+    }
+  }
 }
+
+
 
 function extractData(ob: any, selectedLabel: string) {
   let data = ob.filter((d: any) => d.label == selectedLabel);

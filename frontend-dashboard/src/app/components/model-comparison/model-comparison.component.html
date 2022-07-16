@@ -145,10 +145,11 @@
 
         <section class="chart-main">
           <button
+          mat-raised-button 
+          matTooltip="Importe um arquivo CSV"
           style="margin: 25px; padding: 10px"
           type="button"
           class="btn-upload"
-          *ngIf="uploadFile == true"
           (click)="openPopup()"
         >
           Traga seus Dados
@@ -173,6 +174,15 @@
                   (change)="fileChangeListener($event)"
                   accept=".csv"
                 />
+                <mat-form-field appearance="fill" *ngIf="columns.length > 0">
+                  <mat-label>Selecione qual coluna será mapeada:</mat-label>
+                  <mat-select [(value)]="selectedColumn" (selectionChange)="updateRealData()">
+                    <mat-option></mat-option>
+                    <mat-option [value]="column" *ngFor="let column of columns">{{ column }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+
               </div>
               <div class="modal-footer">
                 <button

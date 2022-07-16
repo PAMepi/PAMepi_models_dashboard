@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSelectModule} from '@angular/material/select';
 //LOADER SERVICES
 import { LoaderService } from './services/loader.service';
 import { LoaderInterceptorService } from './interceptors/loader-interceptor.service';
@@ -26,14 +29,17 @@ import { NgxCsvParserModule } from 'ngx-csv-parser';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatSidenavModule,
     MatIconModule,
     MatToolbarModule,
     HighchartsChartModule,
-    NgxCsvParserModule
-
+    NgxCsvParserModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatSelectModule
   ],
   providers: [
     LoaderService,
