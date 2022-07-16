@@ -234,3 +234,13 @@ select:focus {
 h2{
 font-weight: bold;
 }
+
+.btn-upload{
+  background-color: #892e2c;
+  color: #fff;
+  font-weight: 400;
+  border-radius: 8px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: 300ms;
+}

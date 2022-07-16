@@ -43,6 +43,9 @@ export class ModelComparisonComponent implements OnInit {
     mortality: 0,
   };
 
+  displayStyle = 'none';
+  uploadFile: boolean = false;
+
   constructor(
     private observer: BreakpointObserver,
     private chartService: ChartService,
@@ -51,6 +54,13 @@ export class ModelComparisonComponent implements OnInit {
 
   ngOnInit(): void {
     this.chartUpdate();
+  }
+  openPopup() {
+    this.displayStyle = 'block';
+  }
+
+  closePopup() {
+    this.displayStyle = 'none';
   }
 
   ngAfterViewInit() {
@@ -156,10 +166,9 @@ export class ModelComparisonComponent implements OnInit {
             data: this.realSerie,
             lineWidth: 4,
             color: 'blue',
-          }
+            visible: this.uploadFile,
+          },
         ];
-
-
 
         this.oneToOneFlag = true;
         this.flagUpdate = true;
@@ -168,6 +177,14 @@ export class ModelComparisonComponent implements OnInit {
 
   changeLabel(event: any) {
     this.chartUpdate();
+    if (
+      event.target.value == 'Casos Acumulados' ||
+      event.target.value == 'Casos Diários'
+    ) {
+      this.uploadFile = true;
+    } else {
+      this.uploadFile = false;
+    }
   }
 
   realSerie: any[] = [];
@@ -188,8 +205,8 @@ export class ModelComparisonComponent implements OnInit {
           this.realSerie = result.map((d: any) => {
             return Number.parseFloat(d[Object.keys(d)[0]]);
           });
-          this.data.total_population = Math.max(...this.realSerie) * 1.5 + 100
-          this.chartUpdate()
+          this.data.total_population = Math.max(...this.realSerie) * 1.5 + 100;
+          this.chartUpdate();
         },
         (error: NgxCSVParserError) => {
           console.log('Error', error);

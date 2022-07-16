@@ -17,13 +17,17 @@
       <div class="sidebar-form">
         <div class="mt-4">
           <select
-            class="form-select" [(ngModel)]="labelSelect" (change)="changeLabel($event)"
+            class="form-select"
+            [(ngModel)]="labelSelect"
+            (change)="changeLabel($event)"
           >
             <option value="Suscetíveis" selected>Suscetíveis</option>
             <option value="Infectados">Infectados</option>
             <option value="Recuperados">Recuperados</option>
             <option value="Expostos">Expostos</option>
-            <option value="Infectados Assintomáticos">Infectados Assintomáticos</option>
+            <option value="Infectados Assintomáticos">
+              Infectados Assintomáticos
+            </option>
             <option value="Rt">Rt</option>
             <option value="Casos Acumulados">Casos Acumulados</option>
             <option value="Casos Diários">Casos Diários</option>
@@ -69,7 +73,7 @@
               data.recovery_rate.toFixed(2)
             }}</span>
           </div>
-          <div class="input-slider" >
+          <div class="input-slider">
             <label>Assintómaticos</label>
             <input
               type="range"
@@ -124,13 +128,9 @@
             <span class="form-text m-0">{{ data.rho.toFixed(2) }}</span>
           </div>
         </div>
-        <div class="box-btn text-center mt-4" >
-          <button (click)="chartUpdate()"  class="btn-chart">Calcular</button>
-          <input type="file" #fileImportInput name="File Upload" id="csvFileUpload" (change)="fileChangeListener($event)"
-          accept=".csv" />
+        <div class="box-btn text-center mt-4">
+          <button (click)="chartUpdate()" class="btn-chart">Calcular</button>
         </div>
-
-
       </div>
     </section>
   </mat-sidenav>
@@ -141,10 +141,54 @@
         <app-loader></app-loader>
       </div>
       <div class="chart-container">
-        <section class="chart-main row">
-          <h2>{{labelSelect}}</h2>
+
+
+        <section class="chart-main">
+          <button
+          style="margin: 25px; padding: 10px"
+          type="button"
+          class="btn-upload"
+          *ngIf="uploadFile == true"
+          (click)="openPopup()"
+        >
+          Traga seus Dados
+        </button>
+        <div
+          class="modal"
+          tabindex="-1"
+          role="dialog"
+          [ngStyle]="{ display: displayStyle }"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Traga seus Dados</h4>
+              </div>
+              <div class="modal-body">
+                <input
+                  type="file"
+                  #fileImportInput
+                  name="File Upload"
+                  id="csvFileUpload"
+                  (change)="fileChangeListener($event)"
+                  accept=".csv"
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="closePopup()"
+                >
+                  Fechar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <h2>{{ labelSelect }}</h2>
           <highcharts-chart
-            style="width: 100%;height: 750px;  display: block"
+            style="width: 100%; height: 750px; display: block"
             [Highcharts]="Highcharts"
             [options]="chartModel"
             [(update)]="flagUpdate"
@@ -156,4 +200,3 @@
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
