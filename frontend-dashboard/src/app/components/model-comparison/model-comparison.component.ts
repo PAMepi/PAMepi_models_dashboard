@@ -51,6 +51,7 @@ export class ModelComparisonComponent implements OnInit {
 
   displayStyle = 'none';
   uploadFile: boolean = false;
+  fileName!:string
 
   constructor(
     private observer: BreakpointObserver,
@@ -64,7 +65,10 @@ export class ModelComparisonComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this.snackBar.open(message);
+    this.snackBar.open(message, 'x', {
+      duration: 5000,
+      panelClass: ['snack-color'],
+    });
   }
 
   openPopup() {
@@ -146,8 +150,8 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIIR',
             data: extractData(data['seiir'], this.labelSelect),
-            lineWidth: 3,
-            color: '#429867',
+            lineWidth: 6,
+            color: '#125B50',
           },
           {
             marker: {
@@ -156,8 +160,8 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIR',
             data: extractData(data['seir'], this.labelSelect),
-            lineWidth: 3,
-            color: '#c41026',
+            lineWidth: 6,
+            color: '#774360',
           },
           {
             marker: {
@@ -166,20 +170,20 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SIR',
             data: extractData(data['sir'], this.labelSelect),
-            lineWidth: 3,
-            color: '#2b5166',
+            lineWidth: 6,
+            color: '#001E6C',
           },
           {
             marker: {
               enabled: false,
             },
-            type: 'area',
-            name: 'Real',
+            type: 'line',
+            name: 'Dados Reais',
             data: this.realSerie,
-            lineWidth: 4,
-            color: 'blue',
+            lineWidth: 9,
+            color: '#F66B0E',
             visible: this.uploadFile,
-            opacity: 0.4
+            opacity: 0.8
           },
         ];
 
@@ -207,6 +211,7 @@ export class ModelComparisonComponent implements OnInit {
 
   fileChangeListener($event: any): void {
     const files = $event.srcElement.files;
+    this.fileName = $event.target.value
 
     this.header =
       (this.header as unknown as string) === 'true' || this.header === true;

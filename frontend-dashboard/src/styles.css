@@ -13,4 +13,12 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+.snack-color{
+  color: white;
+  background-color: #892e2c;
+  font-family: 'Raleway', sans-serif;
+}
 
+.mat-simple-snackbar-action {
+  color: white !important;
+}

@@ -141,61 +141,64 @@
         <app-loader></app-loader>
       </div>
       <div class="chart-container">
-
-
         <section class="chart-main">
           <button
-          mat-raised-button 
-          matTooltip="Importe um arquivo CSV"
-          style="margin: 25px; padding: 10px"
-          type="button"
-          class="btn-upload"
-          (click)="openPopup()"
-        >
-          Traga seus Dados
-        </button>
-        <div
-          class="modal"
-          tabindex="-1"
-          role="dialog"
-          [ngStyle]="{ display: displayStyle }"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Traga seus Dados</h4>
-              </div>
-              <div class="modal-body">
-                <input
-                  type="file"
-                  #fileImportInput
-                  name="File Upload"
-                  id="csvFileUpload"
-                  (change)="fileChangeListener($event)"
-                  accept=".csv"
-                />
-                <mat-form-field appearance="fill" *ngIf="columns.length > 0">
-                  <mat-label>Selecione qual coluna será mapeada:</mat-label>
-                  <mat-select [(value)]="selectedColumn" (selectionChange)="updateRealData()">
-                    <mat-option></mat-option>
-                    <mat-option [value]="column" *ngFor="let column of columns">{{ column }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  (click)="closePopup()"
-                >
-                  Fechar
-                </button>
+            mat-raised-button
+            matTooltip="Importe um arquivo CSV"
+            style="margin: 25px; padding: 10px"
+            type="button"
+            class="btn-upload"
+            (click)="openPopup()"
+          >
+            Traga seus Dados
+          </button>
+          <div
+            class="modal"
+            tabindex="-1"
+            role="dialog"
+            [ngStyle]="{ display: displayStyle }"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title mx-auto">Traga seus Dados</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="container-btn">
+                    <label class="btn-csv mt-2" for="csvFileUpload"
+                      ><i class="bi bi-upload mx-2"></i>Escolha um
+                      arquivo</label
+                    >
+                    <p class="form-text fileName">{{ fileName }}</p>
+                    <input
+                      type="file"
+                      #fileImportInput
+                      id="csvFileUpload"
+                      (change)="fileChangeListener($event)"
+                      accept=".csv"
+                    />
+                  </div>
+                  <select class="form-select" *ngIf="columns.length > 0">
+                    <option value="" disabled selected>
+                      Selecione qual coluna será mapeada
+                    </option>
+                    <option [value]="column" *ngFor="let column of columns">
+                      {{ column }}
+                    </option>
+                  </select>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="closePopup()"
+                  >
+                    Fechar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
           <h2>{{ labelSelect }}</h2>
           <highcharts-chart
             style="width: 100%; height: 750px; display: block"

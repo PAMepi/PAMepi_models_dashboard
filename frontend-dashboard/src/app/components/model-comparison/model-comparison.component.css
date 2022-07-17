@@ -244,3 +244,25 @@ font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   transition: 300ms;
 }
+
+.container-btn{
+  text-align: center;
+}
+
+#csvFileUpload{
+  visibility: hidden;
+}
+.btn-csv{
+  background-color: #dddddd;
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.fileName{
+  color: #000101;
+}
+
+.btn-danger{
+  background-color: #892e2c;
+  border: none;
+}
