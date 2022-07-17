@@ -178,14 +178,18 @@
                       accept=".csv"
                     />
                   </div>
-                  <select class="form-select" *ngIf="columns.length > 0">
+                  <div *ngIf="columns.length > 0">
+                  <label  for="">Selecione qual coluna será mapeada:</label>
+                  <select class="form-select" >
                     <option value="" disabled selected>
-                      Selecione qual coluna será mapeada
+                      Selecione...
                     </option>
                     <option [value]="column" *ngFor="let column of columns">
                       {{ column }}
                     </option>
                   </select>
+                  </div>
+
                 </div>
                 <div class="modal-footer">
                   <button

@@ -150,8 +150,8 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIIR',
             data: extractData(data['seiir'], this.labelSelect),
-            lineWidth: 6,
-            color: '#125B50',
+            lineWidth:5,
+            color: '#124B40',
           },
           {
             marker: {
@@ -160,7 +160,7 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SEIR',
             data: extractData(data['seir'], this.labelSelect),
-            lineWidth: 6,
+            lineWidth:5,
             color: '#774360',
           },
           {
@@ -170,17 +170,19 @@ export class ModelComparisonComponent implements OnInit {
             type: 'line',
             name: 'SIR',
             data: extractData(data['sir'], this.labelSelect),
-            lineWidth: 6,
+            lineWidth:5,
             color: '#001E6C',
           },
           {
             marker: {
-              enabled: false,
+              lineWidth: 2,
+              lineColor: '#F66B0E',
+              symbol: 'bubble'
             },
             type: 'line',
             name: 'Dados Reais',
             data: this.realSerie,
-            lineWidth: 9,
+            lineWidth: 7,
             color: '#F66B0E',
             visible: this.uploadFile,
             opacity: 0.8
